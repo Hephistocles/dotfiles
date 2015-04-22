@@ -1,13 +1,13 @@
 - clean: ['~']
 
 - link:
-    ~/.dotfiles: ''
     ~/.vim: vim/
+    ~/.vimPlugins: vimPlugins
     ~/.vimrc: vimrc
-    ~/.bashrc: vimrc
+    ~/.bashrc: bashrc
     ~/.gitconfig: gitconfig
     ~/.fonts: fonts
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [vim +PluginInstall +qall, Installing VIM plugins]im +PluginInstall +qall
+  - [vim -u ~/.vimPlugins +PluginInstall +qall, Installing VIM plugins]
