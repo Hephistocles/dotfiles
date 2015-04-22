@@ -1,0 +1,29 @@
+"" Vundle stuff
+set nocompatible              " be iMproved, required
+filetype off                  " required
+ 
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+ 
+Plugin 'gmarik/Vundle.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'bling/vim-airline' 
+Plugin 'tpope/vim-fugitive'
+Plugin 'Raimondi/delimitMate'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'Shougo/neocomplcache.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-surround'
+ 
+Bundle "myusuf3/numbers.vim"
+Bundle "wookiehangover/jshint.vim"
+Bundle "git://git.code.sf.net/p/vim-latex/vim-latex"
+Bundle "flazz/vim-colorschemes"
+Bundle "lsdr/monokai"
+
+call vundle#end()            " required
+filetype plugin indent on    " required
