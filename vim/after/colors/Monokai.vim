@@ -1,0 +1,1 @@
+hi Conceal ctermbg=235 ctermfg=81

@@ -18,6 +18,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Shougo/neocomplcache.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'AfterColors.vim'
  
 Bundle "myusuf3/numbers.vim"
 Bundle "wookiehangover/jshint.vim"
