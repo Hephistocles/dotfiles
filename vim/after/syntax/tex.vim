@@ -1,0 +1,12 @@
+syn match texMathSymbol '\\:'                   contained conceal cchar= 
+syn match texMathSymbol '\\\.'                  contained conceal cchar= 
+syn match texMathSymbol '\\,'                   contained conceal cchar= 
+syn match texMathSymbol '\\ '                   contained conceal cchar= 
+syn match texMathSymbol '\\}'                  contained conceal cchar=}
+syn match texMathSymbol '\\{'                  contained conceal cchar={
+syn match texMathSymbol '\\langle'				contained conceal cchar=⟨
+syn match texMathSymbol '\\rangle'				contained conceal cchar=⟩
+syn match texMathSymbol '\\implies'				contained conceal cchar=⇒
+syn match texMathSymbol '\\iff'				contained conceal cchar=⇔
+syn match texMathSymbol '\\land' 				contained conceal cchar=∧
+syn match texMathSymbol '\\lor' 				contained conceal cchar=∨

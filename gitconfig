@@ -1,0 +1,7 @@
+[user]
+	email = hephistocles@gmail.com
+	name = Christopher Little
+[push]
+	default = simple
+[core]
+	editor = vim
