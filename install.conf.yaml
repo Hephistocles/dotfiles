@@ -4,6 +4,7 @@
     ~/.vim: vim/
     ~/.vimPlugins: vimPlugins
     ~/.vimrc: vimrc
+    ~/.gvimrc: gvimrc
     ~/.bashrc: bashrc
     ~/.gitconfig: gitconfig
     ~/.fonts: fonts
