@@ -1,1 +1,0 @@
-/home/christoph/.dotfiles/vim/
