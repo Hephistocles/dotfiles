@@ -64,30 +64,15 @@ imap <C-j> <Esc>gqjkA
 
 cmap <C-a> <Home>
 cmap <C-e> <End>
-cmap <C-k> 
+
 "" Plugin settings
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_FoldedEnvironments = ',subcase,case,definition,proof,theorem'
-"" let g:ctrlp_custom_ignore = {
-""   \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
-""   \ 'file': '\v\.(exe|so|dll|pdf|aux|log|out|toc|lof)$',
-""   \ }
 let g:ctrlp_user_command=['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:syntastic_check_on_open=1
 let g:ctrlp_match_window_bottom = 0
-let g:Tex_CompileRule_pdf='pdflatex -interaction=nonstopmode --enable-pipes --shell-escape $*'
-let g:Tex_MultipleCompileFormats='dvi,pdf'
-
-"" Remove some helpful latex-suite features
-call IMAP('()', '()', 'tex')
-call IMAP('{}', '{}', 'tex')
-call IMAP('[]', '[]', 'tex')
-call IMAP('::', '::', 'tex')
-call IMAP('{{', '{{', 'tex')
-call IMAP('((', '((', 'tex')
-call IMAP('[[', '[[', 'tex')
-call IMAP('$$', '$$', 'tex')
-let g:Tex_Leader = '`tex'
-let g:Tex_Leader2 = ',tex'
+let g:LatexBox_quickfix=2
+let g:LatexBox_build_dir='~/.latexfiles'
+let g:LatexBox_Folding=1
+let g:LatexBox_show_warnings=0
+let g:LatexBox_fold_sections = ["part", "chapter", "section", "subsection", "subsubsection", "theorem", "proof", "definition", "case", "subcase"]

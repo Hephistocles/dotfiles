@@ -4,10 +4,12 @@
     ~/.vim: vim/
     ~/.vimPlugins: vimPlugins
     ~/.vimrc: vimrc
+    ~/.latexmkrc: latexmkrc
     ~/.gvimrc: gvimrc
     ~/.bashrc: bashrc
     ~/.gitconfig: gitconfig
     ~/.fonts: fonts
+    ~/bin: bin
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

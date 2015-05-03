@@ -1,0 +1,4227 @@
+   0  $accept : %entry% $end
+
+   1  main : items
+
+   2  items : item items
+   3        | EOF
+
+   4  item : metavardefn
+   5       | RULES rules
+   6       | DEFNCLASS defnclass
+   7       | FUNDEFNCLASS fundefnclass
+   8       | SUBRULES subrules
+   9       | CONTEXTRULES contextrules
+  10       | SUBSTITUTIONS substitutions
+  11       | FREEVARS freevars
+  12       | EMBED embed
+  13       | PARSING parsing_annotations
+  14       | HOMS hom_section
+  15       | COQSECTIONBEGIN coq_section_begin
+  16       | COQSECTIONEND coq_section_end
+  17       | COQVARIABLE coq_variable
+
+  18  metavardefn : metavardefn_int
+  19              | indexvardefn_int
+
+  20  metavardefn_int : METAVAR ne_ident_hom_desc_list CCE metavarrep
+
+  21  indexvardefn_int : INDEXVAR ne_ident_hom_desc_list CCE metavarrep
+
+  22  metavarrep : homomorphism_list
+
+  23  homomorphism_list :
+  24                    | homomorphism homomorphism_list
+
+  25  homomorphism : DOUBLELEFTBRACE hom_name hom_spec_el_list DOUBLERIGHTBRACE
+
+  26  hom_name : STRING BLANKS
+  27           | BLANKS STRING BLANKS
+
+  28  hom_spec_el_list :
+  29                   | hom_spec_el hom_spec_el_list
+
+  30  hom_spec_el : DOUBLELEFTBRACKET hom_inner DOUBLERIGHTBRACKET
+  31              | STRING
+  32              | BLANKS
+  33              | DOTDOT
+  34              | DOTDOTDOT
+  35              | DOTDOTDOTDOT
+
+  36  hom_inner : ident_and_blanks_list
+  37            | ident_and_blanks_list dots ident_and_blanks_list
+  38            | COMP_LEFT ident_and_blanks_list COMP_MIDDLE comp_bound COMP_RIGHT blanks_list
+
+  39  embedmorphism_list :
+  40                     | embedmorphism embedmorphism_list
+
+  41  embedmorphism : DOUBLELEFTBRACE hom_name embed_spec_el_list DOUBLERIGHTBRACE
+
+  42  embed_spec_el_list :
+  43                     | embed_spec_el embed_spec_el_list
+
+  44  embed_spec_el : DOUBLELEFTBRACKET embed_inner DOUBLERIGHTBRACKET
+  45                | STRING
+  46                | BLANKS
+  47                | DOTDOT
+  48                | DOTDOTDOT
+  49                | DOTDOTDOTDOT
+
+  50  embed_inner :
+  51              | STRING embed_inner
+  52              | BLANKS embed_inner
+
+  53  bindspec : BIND mse IN ident
+  54           | ident EQ mse
+  55           | NAMES LPAREN mse RPAREN EQ NAMES LPAREN mse RPAREN
+  56           | NAMES LPAREN mse RPAREN HASH NAMES LPAREN mse RPAREN
+  57           | DISTINCTNAMES LPAREN mse RPAREN
+
+  58  bindspeclist :
+  59               | bindspec bindspeclist
+
+  60  mse : ident
+  61      | ident dots ident
+  62      | COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT
+  63      | ident LPAREN ident RPAREN
+  64      | ident LPAREN ident dots ident RPAREN
+  65      | ident LPAREN COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT RPAREN
+  66      | ident COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT
+  67      | mse UNION mse
+  68      | EMPTY
+
+  69  bindspeclistlist :
+  70                   | BIND_LEFT_DELIM bindspeclist BIND_RIGHT_DELIM bindspeclistlist
+
+  71  bindspecall : bindspeclistlist
+
+  72  dots : DOTDOT
+  73       | DOTDOTDOT
+  74       | DOTDOTDOTDOT
+
+  75  element : ident
+  76          | dots
+  77          | COMP_LEFT element_list COMP_MIDDLE comp_bound COMP_RIGHT
+  78          | COMP_LEFT element_list COMP_MIDDLE ident COMP_MIDDLE comp_bound COMP_RIGHT
+
+  79  comp_bound : ident
+  80             | ident COMP_IN ident
+  81             | ident COMP_IN ident dots ident
+
+  82  element_list :
+  83               | element element_list
+
+  84  rules : rule_list
+
+  85  rule_list :
+  86            | rule rule_list
+
+  87  rule : ne_ident_hom_desc_list COLONCOLON STRING CCE homomorphism_list prodlist
+
+  88  prod : flavour element_list COLONCOLON ident_list COLONCOLON STRING bindspecall homomorphism_list
+
+  89  prodlist :
+  90           | prod prodlist
+
+  91  flavour : BAR
+
+  92  ident_desc : STRING
+
+  93  ne_ident_hom_desc_list : ident_desc homomorphism_list
+  94                         | ident_desc homomorphism_list COMMA ne_ident_hom_desc_list
+
+  95  ident_desc_list :
+  96                  | ident_desc COMMA ident_desc_list
+
+  97  ident : STRING
+
+  98  blanks : BLANKS
+
+  99  ident_list :
+ 100             | ident ident_list
+ 101             | BLANKS ident_list
+
+ 102  ident_and_blanks_list :
+ 103                        | ident ident_and_blanks_list
+ 104                        | blanks ident_and_blanks_list
+
+ 105  blanks_list :
+ 106              | BLANKS blanks_list
+
+ 107  defnclass : STRING COLONCOLON STRING CCE homomorphism_list defn_list
+
+ 108  defn_list :
+ 109            | defn defn_list
+
+ 110  defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list
+
+ 111  drule_line_annot : ident_list COLONCOLON STRING homomorphism_list EOF
+
+ 112  fundefnclass : STRING CCE homomorphism_list fundefn_list
+
+ 113  fundefn_list :
+ 114               | fundefn fundefn_list
+
+ 115  fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON STRING homomorphism_list BY BLANKLINE anylinelist
+
+ 116  anylinelist :
+ 117              | line anylinelist
+ 118              | COMMENTLINE anylinelist
+ 119              | BLANKLINE anylinelist
+
+ 120  line : LINE
+
+ 121  lineline : LINELINE
+
+ 122  linelist :
+ 123           | line linelist
+ 124           | COMMENTLINE linelist
+
+ 125  nelinelist : line linelist
+ 126             | COMMENTLINE linelist
+
+ 127  semiraw_rule : linelist lineline linelist
+ 128               | nelinelist
+
+ 129  blanklinelist :
+ 130                | BLANKLINE blanklinelist
+
+ 131  neblanklinelist : BLANKLINE
+ 132                  | BLANKLINE neblanklinelist
+
+ 133  defncom : DEFNCOM embed_spec_el_list DOUBLERIGHTBRACE
+
+ 134  semiraw_rule_list : blanklinelist
+ 135                    | neblanklinelist semiraw_rule semiraw_rule_list
+ 136                    | neblanklinelist defncom semiraw_rule_list
+
+ 137  subrules : subrules_body
+
+ 138  subrules_body :
+ 139                | subrule subrules_body
+
+ 140  subrule : ident_desc LTCOLONCOLON ident_desc homomorphism_list
+
+ 141  contextrules : contextrules_body
+
+ 142  contextrules_body :
+ 143                    | contextrule contextrules_body
+
+ 144  contextrule : ident_desc UNDERSCORECOLONCOLON ident_desc COLONCOLON ident_desc
+
+ 145  substitutions : substitutions_body
+
+ 146  substitutions_body :
+ 147                     | substitution substitutions_body
+
+ 148  substitution : substitution_kind ident_desc ident_desc COLONCOLON ident_desc homomorphism_list
+
+ 149  substitution_kind : SINGLE
+ 150                    | MULTIPLE
+
+ 151  freevars : freevars_body
+
+ 152  freevars_body :
+ 153                | freevar freevars_body
+
+ 154  freevar : ident_desc ident_desc COLONCOLON ident_desc homomorphism_list
+
+ 155  embed : embedmorphism_list
+
+ 156  parsing_annotation_type : LTEQ
+ 157                          | LEFT
+ 158                          | RIGHT
+ 159                          | NON
+
+ 160  parsing_annotations : parsing_annotations_body
+
+ 161  parsing_annotations_body :
+ 162                           | parsing_annotation parsing_annotations_body
+
+ 163  parsing_annotation : ident_desc parsing_annotation_type ident_desc
+
+ 164  hom_section_item : COLONCOLON STRING bindspecall homomorphism_list
+
+ 165  hom_section_item_list :
+ 166                        | hom_section_item hom_section_item_list
+
+ 167  hom_section : STRING hom_section_item_list
+
+ 168  coq_section_begin : STRING
+
+ 169  coq_section_end : STRING
+
+ 170  coq_variable : STRING
+
+ 171  unfiltered_spec_el_list :
+ 172                          | unfiltered_spec_el unfiltered_spec_el_list
+
+ 173  unfiltered_spec_el : DOUBLELEFTBRACKET unfiltered_inner DOUBLERIGHTBRACKET
+ 174                     | STRING
+ 175                     | BLANKS
+
+ 176  unfiltered_inner :
+ 177                   | STRING unfiltered_inner
+ 178                   | BLANKS unfiltered_inner
+
+ 179  %entry% : '\001' main
+ 180          | '\002' drule_line_annot
+ 181          | '\003' unfiltered_spec_el_list
+ 182          | '\004' embed_spec_el_list
+
+state 0
+	$accept : . %entry% $end  (0)
+
+	'\001'  shift 1
+	'\002'  shift 2
+	'\003'  shift 3
+	'\004'  shift 4
+	.  error
+
+	%entry%  goto 5
+
+
+state 1
+	%entry% : '\001' . main  (179)
+
+	EOF  shift 6
+	EMBED  shift 7
+	METAVAR  shift 8
+	INDEXVAR  shift 9
+	RULES  shift 10
+	SUBRULES  shift 11
+	CONTEXTRULES  shift 12
+	SUBSTITUTIONS  shift 13
+	FREEVARS  shift 14
+	DEFNCLASS  shift 15
+	FUNDEFNCLASS  shift 16
+	HOMS  shift 17
+	PARSING  shift 18
+	COQSECTIONBEGIN  shift 19
+	COQSECTIONEND  shift 20
+	COQVARIABLE  shift 21
+	.  error
+
+	main  goto 22
+	items  goto 23
+	item  goto 24
+	metavardefn  goto 25
+	metavardefn_int  goto 26
+	indexvardefn_int  goto 27
+
+
+state 2
+	%entry% : '\002' . drule_line_annot  (180)
+	ident_list : .  (99)
+
+	STRING  shift 28
+	BLANKS  shift 29
+	COLONCOLON  reduce 99
+
+	drule_line_annot  goto 30
+	ident  goto 31
+	ident_list  goto 32
+
+
+state 3
+	%entry% : '\003' . unfiltered_spec_el_list  (181)
+	unfiltered_spec_el_list : .  (171)
+
+	STRING  shift 33
+	BLANKS  shift 34
+	DOUBLELEFTBRACKET  shift 35
+	$end  reduce 171
+
+	unfiltered_spec_el_list  goto 36
+	unfiltered_spec_el  goto 37
+
+
+state 4
+	%entry% : '\004' . embed_spec_el_list  (182)
+	embed_spec_el_list : .  (42)
+
+	STRING  shift 38
+	BLANKS  shift 39
+	DOUBLELEFTBRACKET  shift 40
+	DOTDOT  shift 41
+	DOTDOTDOT  shift 42
+	DOTDOTDOTDOT  shift 43
+	$end  reduce 42
+
+	embed_spec_el_list  goto 44
+	embed_spec_el  goto 45
+
+
+state 5
+	$accept : %entry% . $end  (0)
+
+	$end  accept
+
+
+state 6
+	items : EOF .  (3)
+
+	.  reduce 3
+
+
+state 7
+	item : EMBED . embed  (12)
+	embedmorphism_list : .  (39)
+
+	DOUBLELEFTBRACE  shift 46
+	EOF  reduce 39
+	EMBED  reduce 39
+	METAVAR  reduce 39
+	INDEXVAR  reduce 39
+	RULES  reduce 39
+	SUBRULES  reduce 39
+	CONTEXTRULES  reduce 39
+	SUBSTITUTIONS  reduce 39
+	FREEVARS  reduce 39
+	DEFNCLASS  reduce 39
+	FUNDEFNCLASS  reduce 39
+	HOMS  reduce 39
+	PARSING  reduce 39
+	COQSECTIONBEGIN  reduce 39
+	COQSECTIONEND  reduce 39
+	COQVARIABLE  reduce 39
+
+	embed  goto 47
+	embedmorphism_list  goto 48
+	embedmorphism  goto 49
+
+
+state 8
+	metavardefn_int : METAVAR . ne_ident_hom_desc_list CCE metavarrep  (20)
+
+	STRING  shift 50
+	.  error
+
+	ne_ident_hom_desc_list  goto 51
+	ident_desc  goto 52
+
+
+state 9
+	indexvardefn_int : INDEXVAR . ne_ident_hom_desc_list CCE metavarrep  (21)
+
+	STRING  shift 50
+	.  error
+
+	ne_ident_hom_desc_list  goto 53
+	ident_desc  goto 52
+
+
+state 10
+	item : RULES . rules  (5)
+	rule_list : .  (85)
+
+	STRING  shift 50
+	EOF  reduce 85
+	EMBED  reduce 85
+	METAVAR  reduce 85
+	INDEXVAR  reduce 85
+	RULES  reduce 85
+	SUBRULES  reduce 85
+	CONTEXTRULES  reduce 85
+	SUBSTITUTIONS  reduce 85
+	FREEVARS  reduce 85
+	DEFNCLASS  reduce 85
+	FUNDEFNCLASS  reduce 85
+	HOMS  reduce 85
+	PARSING  reduce 85
+	COQSECTIONBEGIN  reduce 85
+	COQSECTIONEND  reduce 85
+	COQVARIABLE  reduce 85
+
+	rules  goto 54
+	ne_ident_hom_desc_list  goto 55
+	rule_list  goto 56
+	rule  goto 57
+	ident_desc  goto 52
+
+
+state 11
+	item : SUBRULES . subrules  (8)
+	subrules_body : .  (138)
+
+	STRING  shift 50
+	EOF  reduce 138
+	EMBED  reduce 138
+	METAVAR  reduce 138
+	INDEXVAR  reduce 138
+	RULES  reduce 138
+	SUBRULES  reduce 138
+	CONTEXTRULES  reduce 138
+	SUBSTITUTIONS  reduce 138
+	FREEVARS  reduce 138
+	DEFNCLASS  reduce 138
+	FUNDEFNCLASS  reduce 138
+	HOMS  reduce 138
+	PARSING  reduce 138
+	COQSECTIONBEGIN  reduce 138
+	COQSECTIONEND  reduce 138
+	COQVARIABLE  reduce 138
+
+	subrules  goto 58
+	ident_desc  goto 59
+	subrules_body  goto 60
+	subrule  goto 61
+
+
+state 12
+	item : CONTEXTRULES . contextrules  (9)
+	contextrules_body : .  (142)
+
+	STRING  shift 50
+	EOF  reduce 142
+	EMBED  reduce 142
+	METAVAR  reduce 142
+	INDEXVAR  reduce 142
+	RULES  reduce 142
+	SUBRULES  reduce 142
+	CONTEXTRULES  reduce 142
+	SUBSTITUTIONS  reduce 142
+	FREEVARS  reduce 142
+	DEFNCLASS  reduce 142
+	FUNDEFNCLASS  reduce 142
+	HOMS  reduce 142
+	PARSING  reduce 142
+	COQSECTIONBEGIN  reduce 142
+	COQSECTIONEND  reduce 142
+	COQVARIABLE  reduce 142
+
+	contextrules  goto 62
+	ident_desc  goto 63
+	contextrules_body  goto 64
+	contextrule  goto 65
+
+
+state 13
+	item : SUBSTITUTIONS . substitutions  (10)
+	substitutions_body : .  (146)
+
+	SINGLE  shift 66
+	MULTIPLE  shift 67
+	EOF  reduce 146
+	EMBED  reduce 146
+	METAVAR  reduce 146
+	INDEXVAR  reduce 146
+	RULES  reduce 146
+	SUBRULES  reduce 146
+	CONTEXTRULES  reduce 146
+	SUBSTITUTIONS  reduce 146
+	FREEVARS  reduce 146
+	DEFNCLASS  reduce 146
+	FUNDEFNCLASS  reduce 146
+	HOMS  reduce 146
+	PARSING  reduce 146
+	COQSECTIONBEGIN  reduce 146
+	COQSECTIONEND  reduce 146
+	COQVARIABLE  reduce 146
+
+	substitutions  goto 68
+	substitutions_body  goto 69
+	substitution  goto 70
+	substitution_kind  goto 71
+
+
+state 14
+	item : FREEVARS . freevars  (11)
+	freevars_body : .  (152)
+
+	STRING  shift 50
+	EOF  reduce 152
+	EMBED  reduce 152
+	METAVAR  reduce 152
+	INDEXVAR  reduce 152
+	RULES  reduce 152
+	SUBRULES  reduce 152
+	CONTEXTRULES  reduce 152
+	SUBSTITUTIONS  reduce 152
+	FREEVARS  reduce 152
+	DEFNCLASS  reduce 152
+	FUNDEFNCLASS  reduce 152
+	HOMS  reduce 152
+	PARSING  reduce 152
+	COQSECTIONBEGIN  reduce 152
+	COQSECTIONEND  reduce 152
+	COQVARIABLE  reduce 152
+
+	freevars  goto 72
+	ident_desc  goto 73
+	freevars_body  goto 74
+	freevar  goto 75
+
+
+state 15
+	item : DEFNCLASS . defnclass  (6)
+
+	STRING  shift 76
+	.  error
+
+	defnclass  goto 77
+
+
+state 16
+	item : FUNDEFNCLASS . fundefnclass  (7)
+
+	STRING  shift 78
+	.  error
+
+	fundefnclass  goto 79
+
+
+state 17
+	item : HOMS . hom_section  (14)
+
+	STRING  shift 80
+	.  error
+
+	hom_section  goto 81
+
+
+state 18
+	item : PARSING . parsing_annotations  (13)
+	parsing_annotations_body : .  (161)
+
+	STRING  shift 50
+	EOF  reduce 161
+	EMBED  reduce 161
+	METAVAR  reduce 161
+	INDEXVAR  reduce 161
+	RULES  reduce 161
+	SUBRULES  reduce 161
+	CONTEXTRULES  reduce 161
+	SUBSTITUTIONS  reduce 161
+	FREEVARS  reduce 161
+	DEFNCLASS  reduce 161
+	FUNDEFNCLASS  reduce 161
+	HOMS  reduce 161
+	PARSING  reduce 161
+	COQSECTIONBEGIN  reduce 161
+	COQSECTIONEND  reduce 161
+	COQVARIABLE  reduce 161
+
+	parsing_annotations  goto 82
+	ident_desc  goto 83
+	parsing_annotations_body  goto 84
+	parsing_annotation  goto 85
+
+
+state 19
+	item : COQSECTIONBEGIN . coq_section_begin  (15)
+
+	STRING  shift 86
+	.  error
+
+	coq_section_begin  goto 87
+
+
+state 20
+	item : COQSECTIONEND . coq_section_end  (16)
+
+	STRING  shift 88
+	.  error
+
+	coq_section_end  goto 89
+
+
+state 21
+	item : COQVARIABLE . coq_variable  (17)
+
+	STRING  shift 90
+	.  error
+
+	coq_variable  goto 91
+
+
+state 22
+	%entry% : '\001' main .  (179)
+
+	.  reduce 179
+
+
+state 23
+	main : items .  (1)
+
+	.  reduce 1
+
+
+state 24
+	items : item . items  (2)
+
+	EOF  shift 6
+	EMBED  shift 7
+	METAVAR  shift 8
+	INDEXVAR  shift 9
+	RULES  shift 10
+	SUBRULES  shift 11
+	CONTEXTRULES  shift 12
+	SUBSTITUTIONS  shift 13
+	FREEVARS  shift 14
+	DEFNCLASS  shift 15
+	FUNDEFNCLASS  shift 16
+	HOMS  shift 17
+	PARSING  shift 18
+	COQSECTIONBEGIN  shift 19
+	COQSECTIONEND  shift 20
+	COQVARIABLE  shift 21
+	.  error
+
+	items  goto 92
+	item  goto 24
+	metavardefn  goto 25
+	metavardefn_int  goto 26
+	indexvardefn_int  goto 27
+
+
+state 25
+	item : metavardefn .  (4)
+
+	.  reduce 4
+
+
+state 26
+	metavardefn : metavardefn_int .  (18)
+
+	.  reduce 18
+
+
+state 27
+	metavardefn : indexvardefn_int .  (19)
+
+	.  reduce 19
+
+
+state 28
+	ident : STRING .  (97)
+
+	.  reduce 97
+
+
+state 29
+	ident_list : BLANKS . ident_list  (101)
+	ident_list : .  (99)
+
+	STRING  shift 28
+	BLANKS  shift 29
+	COLONCOLON  reduce 99
+
+	ident  goto 31
+	ident_list  goto 93
+
+
+state 30
+	%entry% : '\002' drule_line_annot .  (180)
+
+	.  reduce 180
+
+
+state 31
+	ident_list : ident . ident_list  (100)
+	ident_list : .  (99)
+
+	STRING  shift 28
+	BLANKS  shift 29
+	COLONCOLON  reduce 99
+
+	ident  goto 31
+	ident_list  goto 94
+
+
+state 32
+	drule_line_annot : ident_list . COLONCOLON STRING homomorphism_list EOF  (111)
+
+	COLONCOLON  shift 95
+	.  error
+
+
+state 33
+	unfiltered_spec_el : STRING .  (174)
+
+	.  reduce 174
+
+
+state 34
+	unfiltered_spec_el : BLANKS .  (175)
+
+	.  reduce 175
+
+
+state 35
+	unfiltered_spec_el : DOUBLELEFTBRACKET . unfiltered_inner DOUBLERIGHTBRACKET  (173)
+	unfiltered_inner : .  (176)
+
+	STRING  shift 96
+	BLANKS  shift 97
+	DOUBLERIGHTBRACKET  reduce 176
+
+	unfiltered_inner  goto 98
+
+
+state 36
+	%entry% : '\003' unfiltered_spec_el_list .  (181)
+
+	.  reduce 181
+
+
+state 37
+	unfiltered_spec_el_list : unfiltered_spec_el . unfiltered_spec_el_list  (172)
+	unfiltered_spec_el_list : .  (171)
+
+	STRING  shift 33
+	BLANKS  shift 34
+	DOUBLELEFTBRACKET  shift 35
+	$end  reduce 171
+
+	unfiltered_spec_el_list  goto 99
+	unfiltered_spec_el  goto 37
+
+
+state 38
+	embed_spec_el : STRING .  (45)
+
+	.  reduce 45
+
+
+state 39
+	embed_spec_el : BLANKS .  (46)
+
+	.  reduce 46
+
+
+state 40
+	embed_spec_el : DOUBLELEFTBRACKET . embed_inner DOUBLERIGHTBRACKET  (44)
+	embed_inner : .  (50)
+
+	STRING  shift 100
+	BLANKS  shift 101
+	DOUBLERIGHTBRACKET  reduce 50
+
+	embed_inner  goto 102
+
+
+state 41
+	embed_spec_el : DOTDOT .  (47)
+
+	.  reduce 47
+
+
+state 42
+	embed_spec_el : DOTDOTDOT .  (48)
+
+	.  reduce 48
+
+
+state 43
+	embed_spec_el : DOTDOTDOTDOT .  (49)
+
+	.  reduce 49
+
+
+state 44
+	%entry% : '\004' embed_spec_el_list .  (182)
+
+	.  reduce 182
+
+
+state 45
+	embed_spec_el_list : embed_spec_el . embed_spec_el_list  (43)
+	embed_spec_el_list : .  (42)
+
+	STRING  shift 38
+	BLANKS  shift 39
+	DOUBLELEFTBRACKET  shift 40
+	DOTDOT  shift 41
+	DOTDOTDOT  shift 42
+	DOTDOTDOTDOT  shift 43
+	$end  reduce 42
+	DOUBLERIGHTBRACE  reduce 42
+
+	embed_spec_el_list  goto 103
+	embed_spec_el  goto 45
+
+
+state 46
+	embedmorphism : DOUBLELEFTBRACE . hom_name embed_spec_el_list DOUBLERIGHTBRACE  (41)
+
+	STRING  shift 104
+	BLANKS  shift 105
+	.  error
+
+	hom_name  goto 106
+
+
+state 47
+	item : EMBED embed .  (12)
+
+	.  reduce 12
+
+
+state 48
+	embed : embedmorphism_list .  (155)
+
+	.  reduce 155
+
+
+state 49
+	embedmorphism_list : embedmorphism . embedmorphism_list  (40)
+	embedmorphism_list : .  (39)
+
+	DOUBLELEFTBRACE  shift 46
+	EOF  reduce 39
+	EMBED  reduce 39
+	METAVAR  reduce 39
+	INDEXVAR  reduce 39
+	RULES  reduce 39
+	SUBRULES  reduce 39
+	CONTEXTRULES  reduce 39
+	SUBSTITUTIONS  reduce 39
+	FREEVARS  reduce 39
+	DEFNCLASS  reduce 39
+	FUNDEFNCLASS  reduce 39
+	HOMS  reduce 39
+	PARSING  reduce 39
+	COQSECTIONBEGIN  reduce 39
+	COQSECTIONEND  reduce 39
+	COQVARIABLE  reduce 39
+
+	embedmorphism_list  goto 107
+	embedmorphism  goto 49
+
+
+state 50
+	ident_desc : STRING .  (92)
+
+	.  reduce 92
+
+
+state 51
+	metavardefn_int : METAVAR ne_ident_hom_desc_list . CCE metavarrep  (20)
+
+	CCE  shift 108
+	.  error
+
+
+state 52
+	ne_ident_hom_desc_list : ident_desc . homomorphism_list  (93)
+	ne_ident_hom_desc_list : ident_desc . homomorphism_list COMMA ne_ident_hom_desc_list  (94)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	COMMA  reduce 23
+	CCE  reduce 23
+	COLONCOLON  reduce 23
+
+	homomorphism_list  goto 110
+	homomorphism  goto 111
+
+
+state 53
+	indexvardefn_int : INDEXVAR ne_ident_hom_desc_list . CCE metavarrep  (21)
+
+	CCE  shift 112
+	.  error
+
+
+state 54
+	item : RULES rules .  (5)
+
+	.  reduce 5
+
+
+state 55
+	rule : ne_ident_hom_desc_list . COLONCOLON STRING CCE homomorphism_list prodlist  (87)
+
+	COLONCOLON  shift 113
+	.  error
+
+
+state 56
+	rules : rule_list .  (84)
+
+	.  reduce 84
+
+
+state 57
+	rule_list : rule . rule_list  (86)
+	rule_list : .  (85)
+
+	STRING  shift 50
+	EOF  reduce 85
+	EMBED  reduce 85
+	METAVAR  reduce 85
+	INDEXVAR  reduce 85
+	RULES  reduce 85
+	SUBRULES  reduce 85
+	CONTEXTRULES  reduce 85
+	SUBSTITUTIONS  reduce 85
+	FREEVARS  reduce 85
+	DEFNCLASS  reduce 85
+	FUNDEFNCLASS  reduce 85
+	HOMS  reduce 85
+	PARSING  reduce 85
+	COQSECTIONBEGIN  reduce 85
+	COQSECTIONEND  reduce 85
+	COQVARIABLE  reduce 85
+
+	ne_ident_hom_desc_list  goto 55
+	rule_list  goto 114
+	rule  goto 57
+	ident_desc  goto 52
+
+
+state 58
+	item : SUBRULES subrules .  (8)
+
+	.  reduce 8
+
+
+state 59
+	subrule : ident_desc . LTCOLONCOLON ident_desc homomorphism_list  (140)
+
+	LTCOLONCOLON  shift 115
+	.  error
+
+
+state 60
+	subrules : subrules_body .  (137)
+
+	.  reduce 137
+
+
+state 61
+	subrules_body : subrule . subrules_body  (139)
+	subrules_body : .  (138)
+
+	STRING  shift 50
+	EOF  reduce 138
+	EMBED  reduce 138
+	METAVAR  reduce 138
+	INDEXVAR  reduce 138
+	RULES  reduce 138
+	SUBRULES  reduce 138
+	CONTEXTRULES  reduce 138
+	SUBSTITUTIONS  reduce 138
+	FREEVARS  reduce 138
+	DEFNCLASS  reduce 138
+	FUNDEFNCLASS  reduce 138
+	HOMS  reduce 138
+	PARSING  reduce 138
+	COQSECTIONBEGIN  reduce 138
+	COQSECTIONEND  reduce 138
+	COQVARIABLE  reduce 138
+
+	ident_desc  goto 59
+	subrules_body  goto 116
+	subrule  goto 61
+
+
+state 62
+	item : CONTEXTRULES contextrules .  (9)
+
+	.  reduce 9
+
+
+state 63
+	contextrule : ident_desc . UNDERSCORECOLONCOLON ident_desc COLONCOLON ident_desc  (144)
+
+	UNDERSCORECOLONCOLON  shift 117
+	.  error
+
+
+state 64
+	contextrules : contextrules_body .  (141)
+
+	.  reduce 141
+
+
+state 65
+	contextrules_body : contextrule . contextrules_body  (143)
+	contextrules_body : .  (142)
+
+	STRING  shift 50
+	EOF  reduce 142
+	EMBED  reduce 142
+	METAVAR  reduce 142
+	INDEXVAR  reduce 142
+	RULES  reduce 142
+	SUBRULES  reduce 142
+	CONTEXTRULES  reduce 142
+	SUBSTITUTIONS  reduce 142
+	FREEVARS  reduce 142
+	DEFNCLASS  reduce 142
+	FUNDEFNCLASS  reduce 142
+	HOMS  reduce 142
+	PARSING  reduce 142
+	COQSECTIONBEGIN  reduce 142
+	COQSECTIONEND  reduce 142
+	COQVARIABLE  reduce 142
+
+	ident_desc  goto 63
+	contextrules_body  goto 118
+	contextrule  goto 65
+
+
+state 66
+	substitution_kind : SINGLE .  (149)
+
+	.  reduce 149
+
+
+state 67
+	substitution_kind : MULTIPLE .  (150)
+
+	.  reduce 150
+
+
+state 68
+	item : SUBSTITUTIONS substitutions .  (10)
+
+	.  reduce 10
+
+
+state 69
+	substitutions : substitutions_body .  (145)
+
+	.  reduce 145
+
+
+state 70
+	substitutions_body : substitution . substitutions_body  (147)
+	substitutions_body : .  (146)
+
+	SINGLE  shift 66
+	MULTIPLE  shift 67
+	EOF  reduce 146
+	EMBED  reduce 146
+	METAVAR  reduce 146
+	INDEXVAR  reduce 146
+	RULES  reduce 146
+	SUBRULES  reduce 146
+	CONTEXTRULES  reduce 146
+	SUBSTITUTIONS  reduce 146
+	FREEVARS  reduce 146
+	DEFNCLASS  reduce 146
+	FUNDEFNCLASS  reduce 146
+	HOMS  reduce 146
+	PARSING  reduce 146
+	COQSECTIONBEGIN  reduce 146
+	COQSECTIONEND  reduce 146
+	COQVARIABLE  reduce 146
+
+	substitutions_body  goto 119
+	substitution  goto 70
+	substitution_kind  goto 71
+
+
+state 71
+	substitution : substitution_kind . ident_desc ident_desc COLONCOLON ident_desc homomorphism_list  (148)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 120
+
+
+state 72
+	item : FREEVARS freevars .  (11)
+
+	.  reduce 11
+
+
+state 73
+	freevar : ident_desc . ident_desc COLONCOLON ident_desc homomorphism_list  (154)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 121
+
+
+state 74
+	freevars : freevars_body .  (151)
+
+	.  reduce 151
+
+
+state 75
+	freevars_body : freevar . freevars_body  (153)
+	freevars_body : .  (152)
+
+	STRING  shift 50
+	EOF  reduce 152
+	EMBED  reduce 152
+	METAVAR  reduce 152
+	INDEXVAR  reduce 152
+	RULES  reduce 152
+	SUBRULES  reduce 152
+	CONTEXTRULES  reduce 152
+	SUBSTITUTIONS  reduce 152
+	FREEVARS  reduce 152
+	DEFNCLASS  reduce 152
+	FUNDEFNCLASS  reduce 152
+	HOMS  reduce 152
+	PARSING  reduce 152
+	COQSECTIONBEGIN  reduce 152
+	COQSECTIONEND  reduce 152
+	COQVARIABLE  reduce 152
+
+	ident_desc  goto 73
+	freevars_body  goto 122
+	freevar  goto 75
+
+
+state 76
+	defnclass : STRING . COLONCOLON STRING CCE homomorphism_list defn_list  (107)
+
+	COLONCOLON  shift 123
+	.  error
+
+
+state 77
+	item : DEFNCLASS defnclass .  (6)
+
+	.  reduce 6
+
+
+state 78
+	fundefnclass : STRING . CCE homomorphism_list fundefn_list  (112)
+
+	CCE  shift 124
+	.  error
+
+
+state 79
+	item : FUNDEFNCLASS fundefnclass .  (7)
+
+	.  reduce 7
+
+
+state 80
+	hom_section : STRING . hom_section_item_list  (167)
+	hom_section_item_list : .  (165)
+
+	COLONCOLON  shift 125
+	EOF  reduce 165
+	EMBED  reduce 165
+	METAVAR  reduce 165
+	INDEXVAR  reduce 165
+	RULES  reduce 165
+	SUBRULES  reduce 165
+	CONTEXTRULES  reduce 165
+	SUBSTITUTIONS  reduce 165
+	FREEVARS  reduce 165
+	DEFNCLASS  reduce 165
+	FUNDEFNCLASS  reduce 165
+	HOMS  reduce 165
+	PARSING  reduce 165
+	COQSECTIONBEGIN  reduce 165
+	COQSECTIONEND  reduce 165
+	COQVARIABLE  reduce 165
+
+	hom_section_item  goto 126
+	hom_section_item_list  goto 127
+
+
+state 81
+	item : HOMS hom_section .  (14)
+
+	.  reduce 14
+
+
+state 82
+	item : PARSING parsing_annotations .  (13)
+
+	.  reduce 13
+
+
+state 83
+	parsing_annotation : ident_desc . parsing_annotation_type ident_desc  (163)
+
+	LTEQ  shift 128
+	LEFT  shift 129
+	RIGHT  shift 130
+	NON  shift 131
+	.  error
+
+	parsing_annotation_type  goto 132
+
+
+state 84
+	parsing_annotations : parsing_annotations_body .  (160)
+
+	.  reduce 160
+
+
+state 85
+	parsing_annotations_body : parsing_annotation . parsing_annotations_body  (162)
+	parsing_annotations_body : .  (161)
+
+	STRING  shift 50
+	EOF  reduce 161
+	EMBED  reduce 161
+	METAVAR  reduce 161
+	INDEXVAR  reduce 161
+	RULES  reduce 161
+	SUBRULES  reduce 161
+	CONTEXTRULES  reduce 161
+	SUBSTITUTIONS  reduce 161
+	FREEVARS  reduce 161
+	DEFNCLASS  reduce 161
+	FUNDEFNCLASS  reduce 161
+	HOMS  reduce 161
+	PARSING  reduce 161
+	COQSECTIONBEGIN  reduce 161
+	COQSECTIONEND  reduce 161
+	COQVARIABLE  reduce 161
+
+	ident_desc  goto 83
+	parsing_annotations_body  goto 133
+	parsing_annotation  goto 85
+
+
+state 86
+	coq_section_begin : STRING .  (168)
+
+	.  reduce 168
+
+
+state 87
+	item : COQSECTIONBEGIN coq_section_begin .  (15)
+
+	.  reduce 15
+
+
+state 88
+	coq_section_end : STRING .  (169)
+
+	.  reduce 169
+
+
+state 89
+	item : COQSECTIONEND coq_section_end .  (16)
+
+	.  reduce 16
+
+
+state 90
+	coq_variable : STRING .  (170)
+
+	.  reduce 170
+
+
+state 91
+	item : COQVARIABLE coq_variable .  (17)
+
+	.  reduce 17
+
+
+state 92
+	items : item items .  (2)
+
+	.  reduce 2
+
+
+state 93
+	ident_list : BLANKS ident_list .  (101)
+
+	.  reduce 101
+
+
+state 94
+	ident_list : ident ident_list .  (100)
+
+	.  reduce 100
+
+
+state 95
+	drule_line_annot : ident_list COLONCOLON . STRING homomorphism_list EOF  (111)
+
+	STRING  shift 134
+	.  error
+
+
+state 96
+	unfiltered_inner : STRING . unfiltered_inner  (177)
+	unfiltered_inner : .  (176)
+
+	STRING  shift 96
+	BLANKS  shift 97
+	DOUBLERIGHTBRACKET  reduce 176
+
+	unfiltered_inner  goto 135
+
+
+state 97
+	unfiltered_inner : BLANKS . unfiltered_inner  (178)
+	unfiltered_inner : .  (176)
+
+	STRING  shift 96
+	BLANKS  shift 97
+	DOUBLERIGHTBRACKET  reduce 176
+
+	unfiltered_inner  goto 136
+
+
+state 98
+	unfiltered_spec_el : DOUBLELEFTBRACKET unfiltered_inner . DOUBLERIGHTBRACKET  (173)
+
+	DOUBLERIGHTBRACKET  shift 137
+	.  error
+
+
+state 99
+	unfiltered_spec_el_list : unfiltered_spec_el unfiltered_spec_el_list .  (172)
+
+	.  reduce 172
+
+
+state 100
+	embed_inner : STRING . embed_inner  (51)
+	embed_inner : .  (50)
+
+	STRING  shift 100
+	BLANKS  shift 101
+	DOUBLERIGHTBRACKET  reduce 50
+
+	embed_inner  goto 138
+
+
+state 101
+	embed_inner : BLANKS . embed_inner  (52)
+	embed_inner : .  (50)
+
+	STRING  shift 100
+	BLANKS  shift 101
+	DOUBLERIGHTBRACKET  reduce 50
+
+	embed_inner  goto 139
+
+
+state 102
+	embed_spec_el : DOUBLELEFTBRACKET embed_inner . DOUBLERIGHTBRACKET  (44)
+
+	DOUBLERIGHTBRACKET  shift 140
+	.  error
+
+
+state 103
+	embed_spec_el_list : embed_spec_el embed_spec_el_list .  (43)
+
+	.  reduce 43
+
+
+state 104
+	hom_name : STRING . BLANKS  (26)
+
+	BLANKS  shift 141
+	.  error
+
+
+state 105
+	hom_name : BLANKS . STRING BLANKS  (27)
+
+	STRING  shift 142
+	.  error
+
+
+state 106
+	embedmorphism : DOUBLELEFTBRACE hom_name . embed_spec_el_list DOUBLERIGHTBRACE  (41)
+	embed_spec_el_list : .  (42)
+
+	STRING  shift 38
+	BLANKS  shift 39
+	DOUBLELEFTBRACKET  shift 40
+	DOTDOT  shift 41
+	DOTDOTDOT  shift 42
+	DOTDOTDOTDOT  shift 43
+	DOUBLERIGHTBRACE  reduce 42
+
+	embed_spec_el_list  goto 143
+	embed_spec_el  goto 45
+
+
+state 107
+	embedmorphism_list : embedmorphism embedmorphism_list .  (40)
+
+	.  reduce 40
+
+
+state 108
+	metavardefn_int : METAVAR ne_ident_hom_desc_list CCE . metavarrep  (20)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	metavarrep  goto 144
+	homomorphism_list  goto 145
+	homomorphism  goto 111
+
+
+state 109
+	homomorphism : DOUBLELEFTBRACE . hom_name hom_spec_el_list DOUBLERIGHTBRACE  (25)
+
+	STRING  shift 104
+	BLANKS  shift 105
+	.  error
+
+	hom_name  goto 146
+
+
+state 110
+	ne_ident_hom_desc_list : ident_desc homomorphism_list .  (93)
+	ne_ident_hom_desc_list : ident_desc homomorphism_list . COMMA ne_ident_hom_desc_list  (94)
+
+	COMMA  shift 147
+	CCE  reduce 93
+	COLONCOLON  reduce 93
+
+
+state 111
+	homomorphism_list : homomorphism . homomorphism_list  (24)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	STRING  reduce 23
+	EOF  reduce 23
+	COMMA  reduce 23
+	CCE  reduce 23
+	BAR  reduce 23
+	COLONCOLON  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	DEFN  reduce 23
+	FUNDEFNCLASS  reduce 23
+	FUNDEFN  reduce 23
+	BY  reduce 23
+	SINGLE  reduce 23
+	MULTIPLE  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 148
+	homomorphism  goto 111
+
+
+state 112
+	indexvardefn_int : INDEXVAR ne_ident_hom_desc_list CCE . metavarrep  (21)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	metavarrep  goto 149
+	homomorphism_list  goto 145
+	homomorphism  goto 111
+
+
+state 113
+	rule : ne_ident_hom_desc_list COLONCOLON . STRING CCE homomorphism_list prodlist  (87)
+
+	STRING  shift 150
+	.  error
+
+
+state 114
+	rule_list : rule rule_list .  (86)
+
+	.  reduce 86
+
+
+state 115
+	subrule : ident_desc LTCOLONCOLON . ident_desc homomorphism_list  (140)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 151
+
+
+state 116
+	subrules_body : subrule subrules_body .  (139)
+
+	.  reduce 139
+
+
+state 117
+	contextrule : ident_desc UNDERSCORECOLONCOLON . ident_desc COLONCOLON ident_desc  (144)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 152
+
+
+state 118
+	contextrules_body : contextrule contextrules_body .  (143)
+
+	.  reduce 143
+
+
+state 119
+	substitutions_body : substitution substitutions_body .  (147)
+
+	.  reduce 147
+
+
+state 120
+	substitution : substitution_kind ident_desc . ident_desc COLONCOLON ident_desc homomorphism_list  (148)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 153
+
+
+state 121
+	freevar : ident_desc ident_desc . COLONCOLON ident_desc homomorphism_list  (154)
+
+	COLONCOLON  shift 154
+	.  error
+
+
+state 122
+	freevars_body : freevar freevars_body .  (153)
+
+	.  reduce 153
+
+
+state 123
+	defnclass : STRING COLONCOLON . STRING CCE homomorphism_list defn_list  (107)
+
+	STRING  shift 155
+	.  error
+
+
+state 124
+	fundefnclass : STRING CCE . homomorphism_list fundefn_list  (112)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	FUNDEFN  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 156
+	homomorphism  goto 111
+
+
+state 125
+	hom_section_item : COLONCOLON . STRING bindspecall homomorphism_list  (164)
+
+	STRING  shift 157
+	.  error
+
+
+state 126
+	hom_section_item_list : hom_section_item . hom_section_item_list  (166)
+	hom_section_item_list : .  (165)
+
+	COLONCOLON  shift 125
+	EOF  reduce 165
+	EMBED  reduce 165
+	METAVAR  reduce 165
+	INDEXVAR  reduce 165
+	RULES  reduce 165
+	SUBRULES  reduce 165
+	CONTEXTRULES  reduce 165
+	SUBSTITUTIONS  reduce 165
+	FREEVARS  reduce 165
+	DEFNCLASS  reduce 165
+	FUNDEFNCLASS  reduce 165
+	HOMS  reduce 165
+	PARSING  reduce 165
+	COQSECTIONBEGIN  reduce 165
+	COQSECTIONEND  reduce 165
+	COQVARIABLE  reduce 165
+
+	hom_section_item  goto 126
+	hom_section_item_list  goto 158
+
+
+state 127
+	hom_section : STRING hom_section_item_list .  (167)
+
+	.  reduce 167
+
+
+state 128
+	parsing_annotation_type : LTEQ .  (156)
+
+	.  reduce 156
+
+
+state 129
+	parsing_annotation_type : LEFT .  (157)
+
+	.  reduce 157
+
+
+state 130
+	parsing_annotation_type : RIGHT .  (158)
+
+	.  reduce 158
+
+
+state 131
+	parsing_annotation_type : NON .  (159)
+
+	.  reduce 159
+
+
+state 132
+	parsing_annotation : ident_desc parsing_annotation_type . ident_desc  (163)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 159
+
+
+state 133
+	parsing_annotations_body : parsing_annotation parsing_annotations_body .  (162)
+
+	.  reduce 162
+
+
+state 134
+	drule_line_annot : ident_list COLONCOLON STRING . homomorphism_list EOF  (111)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+
+	homomorphism_list  goto 160
+	homomorphism  goto 111
+
+
+state 135
+	unfiltered_inner : STRING unfiltered_inner .  (177)
+
+	.  reduce 177
+
+
+state 136
+	unfiltered_inner : BLANKS unfiltered_inner .  (178)
+
+	.  reduce 178
+
+
+state 137
+	unfiltered_spec_el : DOUBLELEFTBRACKET unfiltered_inner DOUBLERIGHTBRACKET .  (173)
+
+	.  reduce 173
+
+
+state 138
+	embed_inner : STRING embed_inner .  (51)
+
+	.  reduce 51
+
+
+state 139
+	embed_inner : BLANKS embed_inner .  (52)
+
+	.  reduce 52
+
+
+state 140
+	embed_spec_el : DOUBLELEFTBRACKET embed_inner DOUBLERIGHTBRACKET .  (44)
+
+	.  reduce 44
+
+
+state 141
+	hom_name : STRING BLANKS .  (26)
+
+	.  reduce 26
+
+
+state 142
+	hom_name : BLANKS STRING . BLANKS  (27)
+
+	BLANKS  shift 161
+	.  error
+
+
+state 143
+	embedmorphism : DOUBLELEFTBRACE hom_name embed_spec_el_list . DOUBLERIGHTBRACE  (41)
+
+	DOUBLERIGHTBRACE  shift 162
+	.  error
+
+
+state 144
+	metavardefn_int : METAVAR ne_ident_hom_desc_list CCE metavarrep .  (20)
+
+	.  reduce 20
+
+
+state 145
+	metavarrep : homomorphism_list .  (22)
+
+	.  reduce 22
+
+
+state 146
+	homomorphism : DOUBLELEFTBRACE hom_name . hom_spec_el_list DOUBLERIGHTBRACE  (25)
+	hom_spec_el_list : .  (28)
+
+	STRING  shift 163
+	BLANKS  shift 164
+	DOUBLELEFTBRACKET  shift 165
+	DOTDOT  shift 166
+	DOTDOTDOT  shift 167
+	DOTDOTDOTDOT  shift 168
+	DOUBLERIGHTBRACE  reduce 28
+
+	hom_spec_el_list  goto 169
+	hom_spec_el  goto 170
+
+
+state 147
+	ne_ident_hom_desc_list : ident_desc homomorphism_list COMMA . ne_ident_hom_desc_list  (94)
+
+	STRING  shift 50
+	.  error
+
+	ne_ident_hom_desc_list  goto 171
+	ident_desc  goto 52
+
+
+state 148
+	homomorphism_list : homomorphism homomorphism_list .  (24)
+
+	.  reduce 24
+
+
+state 149
+	indexvardefn_int : INDEXVAR ne_ident_hom_desc_list CCE metavarrep .  (21)
+
+	.  reduce 21
+
+
+state 150
+	rule : ne_ident_hom_desc_list COLONCOLON STRING . CCE homomorphism_list prodlist  (87)
+
+	CCE  shift 172
+	.  error
+
+
+state 151
+	subrule : ident_desc LTCOLONCOLON ident_desc . homomorphism_list  (140)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	STRING  reduce 23
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 173
+	homomorphism  goto 111
+
+
+state 152
+	contextrule : ident_desc UNDERSCORECOLONCOLON ident_desc . COLONCOLON ident_desc  (144)
+
+	COLONCOLON  shift 174
+	.  error
+
+
+state 153
+	substitution : substitution_kind ident_desc ident_desc . COLONCOLON ident_desc homomorphism_list  (148)
+
+	COLONCOLON  shift 175
+	.  error
+
+
+state 154
+	freevar : ident_desc ident_desc COLONCOLON . ident_desc homomorphism_list  (154)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 176
+
+
+state 155
+	defnclass : STRING COLONCOLON STRING . CCE homomorphism_list defn_list  (107)
+
+	CCE  shift 177
+	.  error
+
+
+state 156
+	fundefnclass : STRING CCE homomorphism_list . fundefn_list  (112)
+	fundefn_list : .  (113)
+
+	FUNDEFN  shift 178
+	EOF  reduce 113
+	EMBED  reduce 113
+	METAVAR  reduce 113
+	INDEXVAR  reduce 113
+	RULES  reduce 113
+	SUBRULES  reduce 113
+	CONTEXTRULES  reduce 113
+	SUBSTITUTIONS  reduce 113
+	FREEVARS  reduce 113
+	DEFNCLASS  reduce 113
+	FUNDEFNCLASS  reduce 113
+	HOMS  reduce 113
+	PARSING  reduce 113
+	COQSECTIONBEGIN  reduce 113
+	COQSECTIONEND  reduce 113
+	COQVARIABLE  reduce 113
+
+	fundefn_list  goto 179
+	fundefn  goto 180
+
+
+state 157
+	hom_section_item : COLONCOLON STRING . bindspecall homomorphism_list  (164)
+	bindspeclistlist : .  (69)
+
+	BIND_LEFT_DELIM  shift 181
+	EOF  reduce 69
+	DOUBLELEFTBRACE  reduce 69
+	COLONCOLON  reduce 69
+	EMBED  reduce 69
+	METAVAR  reduce 69
+	INDEXVAR  reduce 69
+	RULES  reduce 69
+	SUBRULES  reduce 69
+	CONTEXTRULES  reduce 69
+	SUBSTITUTIONS  reduce 69
+	FREEVARS  reduce 69
+	DEFNCLASS  reduce 69
+	FUNDEFNCLASS  reduce 69
+	HOMS  reduce 69
+	PARSING  reduce 69
+	COQSECTIONBEGIN  reduce 69
+	COQSECTIONEND  reduce 69
+	COQVARIABLE  reduce 69
+
+	bindspeclistlist  goto 182
+	bindspecall  goto 183
+
+
+state 158
+	hom_section_item_list : hom_section_item hom_section_item_list .  (166)
+
+	.  reduce 166
+
+
+state 159
+	parsing_annotation : ident_desc parsing_annotation_type ident_desc .  (163)
+
+	.  reduce 163
+
+
+state 160
+	drule_line_annot : ident_list COLONCOLON STRING homomorphism_list . EOF  (111)
+
+	EOF  shift 184
+	.  error
+
+
+state 161
+	hom_name : BLANKS STRING BLANKS .  (27)
+
+	.  reduce 27
+
+
+state 162
+	embedmorphism : DOUBLELEFTBRACE hom_name embed_spec_el_list DOUBLERIGHTBRACE .  (41)
+
+	.  reduce 41
+
+
+state 163
+	hom_spec_el : STRING .  (31)
+
+	.  reduce 31
+
+
+state 164
+	hom_spec_el : BLANKS .  (32)
+
+	.  reduce 32
+
+
+state 165
+	hom_spec_el : DOUBLELEFTBRACKET . hom_inner DOUBLERIGHTBRACKET  (30)
+	ident_and_blanks_list : .  (102)
+
+	STRING  shift 28
+	BLANKS  shift 185
+	COMP_LEFT  shift 186
+	DOUBLERIGHTBRACKET  reduce 102
+	DOTDOT  reduce 102
+	DOTDOTDOT  reduce 102
+	DOTDOTDOTDOT  reduce 102
+
+	hom_inner  goto 187
+	ident_and_blanks_list  goto 188
+	ident  goto 189
+	blanks  goto 190
+
+
+state 166
+	hom_spec_el : DOTDOT .  (33)
+
+	.  reduce 33
+
+
+state 167
+	hom_spec_el : DOTDOTDOT .  (34)
+
+	.  reduce 34
+
+
+state 168
+	hom_spec_el : DOTDOTDOTDOT .  (35)
+
+	.  reduce 35
+
+
+state 169
+	homomorphism : DOUBLELEFTBRACE hom_name hom_spec_el_list . DOUBLERIGHTBRACE  (25)
+
+	DOUBLERIGHTBRACE  shift 191
+	.  error
+
+
+state 170
+	hom_spec_el_list : hom_spec_el . hom_spec_el_list  (29)
+	hom_spec_el_list : .  (28)
+
+	STRING  shift 163
+	BLANKS  shift 164
+	DOUBLELEFTBRACKET  shift 165
+	DOTDOT  shift 166
+	DOTDOTDOT  shift 167
+	DOTDOTDOTDOT  shift 168
+	DOUBLERIGHTBRACE  reduce 28
+
+	hom_spec_el_list  goto 192
+	hom_spec_el  goto 170
+
+
+state 171
+	ne_ident_hom_desc_list : ident_desc homomorphism_list COMMA ne_ident_hom_desc_list .  (94)
+
+	.  reduce 94
+
+
+state 172
+	rule : ne_ident_hom_desc_list COLONCOLON STRING CCE . homomorphism_list prodlist  (87)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	STRING  reduce 23
+	EOF  reduce 23
+	BAR  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 193
+	homomorphism  goto 111
+
+
+state 173
+	subrule : ident_desc LTCOLONCOLON ident_desc homomorphism_list .  (140)
+
+	.  reduce 140
+
+
+state 174
+	contextrule : ident_desc UNDERSCORECOLONCOLON ident_desc COLONCOLON . ident_desc  (144)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 194
+
+
+state 175
+	substitution : substitution_kind ident_desc ident_desc COLONCOLON . ident_desc homomorphism_list  (148)
+
+	STRING  shift 50
+	.  error
+
+	ident_desc  goto 195
+
+
+state 176
+	freevar : ident_desc ident_desc COLONCOLON ident_desc . homomorphism_list  (154)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	STRING  reduce 23
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 196
+	homomorphism  goto 111
+
+
+state 177
+	defnclass : STRING COLONCOLON STRING CCE . homomorphism_list defn_list  (107)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	DEFN  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 197
+	homomorphism  goto 111
+
+
+state 178
+	fundefn : FUNDEFN . element_list COLONCOLON ident COLONCOLON STRING homomorphism_list BY BLANKLINE anylinelist  (115)
+	element_list : .  (82)
+
+	STRING  shift 28
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	COMP_LEFT  shift 201
+	COLONCOLON  reduce 82
+
+	dots  goto 202
+	ident  goto 203
+	element  goto 204
+	element_list  goto 205
+
+
+state 179
+	fundefnclass : STRING CCE homomorphism_list fundefn_list .  (112)
+
+	.  reduce 112
+
+
+state 180
+	fundefn_list : fundefn . fundefn_list  (114)
+	fundefn_list : .  (113)
+
+	FUNDEFN  shift 178
+	EOF  reduce 113
+	EMBED  reduce 113
+	METAVAR  reduce 113
+	INDEXVAR  reduce 113
+	RULES  reduce 113
+	SUBRULES  reduce 113
+	CONTEXTRULES  reduce 113
+	SUBSTITUTIONS  reduce 113
+	FREEVARS  reduce 113
+	DEFNCLASS  reduce 113
+	FUNDEFNCLASS  reduce 113
+	HOMS  reduce 113
+	PARSING  reduce 113
+	COQSECTIONBEGIN  reduce 113
+	COQSECTIONEND  reduce 113
+	COQVARIABLE  reduce 113
+
+	fundefn_list  goto 206
+	fundefn  goto 180
+
+
+state 181
+	bindspeclistlist : BIND_LEFT_DELIM . bindspeclist BIND_RIGHT_DELIM bindspeclistlist  (70)
+	bindspeclist : .  (58)
+
+	STRING  shift 28
+	BIND  shift 207
+	NAMES  shift 208
+	DISTINCTNAMES  shift 209
+	BIND_RIGHT_DELIM  reduce 58
+
+	bindspec  goto 210
+	ident  goto 211
+	bindspeclist  goto 212
+
+
+state 182
+	bindspecall : bindspeclistlist .  (71)
+
+	.  reduce 71
+
+
+state 183
+	hom_section_item : COLONCOLON STRING bindspecall . homomorphism_list  (164)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+	COLONCOLON  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 213
+	homomorphism  goto 111
+
+
+state 184
+	drule_line_annot : ident_list COLONCOLON STRING homomorphism_list EOF .  (111)
+
+	.  reduce 111
+
+
+state 185
+	blanks : BLANKS .  (98)
+
+	.  reduce 98
+
+
+state 186
+	hom_inner : COMP_LEFT . ident_and_blanks_list COMP_MIDDLE comp_bound COMP_RIGHT blanks_list  (38)
+	ident_and_blanks_list : .  (102)
+
+	STRING  shift 28
+	BLANKS  shift 185
+	COMP_MIDDLE  reduce 102
+
+	ident_and_blanks_list  goto 214
+	ident  goto 189
+	blanks  goto 190
+
+
+state 187
+	hom_spec_el : DOUBLELEFTBRACKET hom_inner . DOUBLERIGHTBRACKET  (30)
+
+	DOUBLERIGHTBRACKET  shift 215
+	.  error
+
+
+state 188
+	hom_inner : ident_and_blanks_list .  (36)
+	hom_inner : ident_and_blanks_list . dots ident_and_blanks_list  (37)
+
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	DOUBLERIGHTBRACKET  reduce 36
+
+	dots  goto 216
+
+
+state 189
+	ident_and_blanks_list : ident . ident_and_blanks_list  (103)
+	ident_and_blanks_list : .  (102)
+
+	STRING  shift 28
+	BLANKS  shift 185
+	DOUBLERIGHTBRACKET  reduce 102
+	DOTDOT  reduce 102
+	DOTDOTDOT  reduce 102
+	DOTDOTDOTDOT  reduce 102
+	COMP_MIDDLE  reduce 102
+
+	ident_and_blanks_list  goto 217
+	ident  goto 189
+	blanks  goto 190
+
+
+state 190
+	ident_and_blanks_list : blanks . ident_and_blanks_list  (104)
+	ident_and_blanks_list : .  (102)
+
+	STRING  shift 28
+	BLANKS  shift 185
+	DOUBLERIGHTBRACKET  reduce 102
+	DOTDOT  reduce 102
+	DOTDOTDOT  reduce 102
+	DOTDOTDOTDOT  reduce 102
+	COMP_MIDDLE  reduce 102
+
+	ident_and_blanks_list  goto 218
+	ident  goto 189
+	blanks  goto 190
+
+
+state 191
+	homomorphism : DOUBLELEFTBRACE hom_name hom_spec_el_list DOUBLERIGHTBRACE .  (25)
+
+	.  reduce 25
+
+
+state 192
+	hom_spec_el_list : hom_spec_el hom_spec_el_list .  (29)
+
+	.  reduce 29
+
+
+state 193
+	rule : ne_ident_hom_desc_list COLONCOLON STRING CCE homomorphism_list . prodlist  (87)
+	prodlist : .  (89)
+
+	BAR  shift 219
+	STRING  reduce 89
+	EOF  reduce 89
+	EMBED  reduce 89
+	METAVAR  reduce 89
+	INDEXVAR  reduce 89
+	RULES  reduce 89
+	SUBRULES  reduce 89
+	CONTEXTRULES  reduce 89
+	SUBSTITUTIONS  reduce 89
+	FREEVARS  reduce 89
+	DEFNCLASS  reduce 89
+	FUNDEFNCLASS  reduce 89
+	HOMS  reduce 89
+	PARSING  reduce 89
+	COQSECTIONBEGIN  reduce 89
+	COQSECTIONEND  reduce 89
+	COQVARIABLE  reduce 89
+
+	prodlist  goto 220
+	prod  goto 221
+	flavour  goto 222
+
+
+state 194
+	contextrule : ident_desc UNDERSCORECOLONCOLON ident_desc COLONCOLON ident_desc .  (144)
+
+	.  reduce 144
+
+
+state 195
+	substitution : substitution_kind ident_desc ident_desc COLONCOLON ident_desc . homomorphism_list  (148)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	EOF  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	SINGLE  reduce 23
+	MULTIPLE  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 223
+	homomorphism  goto 111
+
+
+state 196
+	freevar : ident_desc ident_desc COLONCOLON ident_desc homomorphism_list .  (154)
+
+	.  reduce 154
+
+
+state 197
+	defnclass : STRING COLONCOLON STRING CCE homomorphism_list . defn_list  (107)
+	defn_list : .  (108)
+
+	DEFN  shift 224
+	EOF  reduce 108
+	EMBED  reduce 108
+	METAVAR  reduce 108
+	INDEXVAR  reduce 108
+	RULES  reduce 108
+	SUBRULES  reduce 108
+	CONTEXTRULES  reduce 108
+	SUBSTITUTIONS  reduce 108
+	FREEVARS  reduce 108
+	DEFNCLASS  reduce 108
+	FUNDEFNCLASS  reduce 108
+	HOMS  reduce 108
+	PARSING  reduce 108
+	COQSECTIONBEGIN  reduce 108
+	COQSECTIONEND  reduce 108
+	COQVARIABLE  reduce 108
+
+	defn_list  goto 225
+	defn  goto 226
+
+
+state 198
+	dots : DOTDOT .  (72)
+
+	.  reduce 72
+
+
+state 199
+	dots : DOTDOTDOT .  (73)
+
+	.  reduce 73
+
+
+state 200
+	dots : DOTDOTDOTDOT .  (74)
+
+	.  reduce 74
+
+
+state 201
+	element : COMP_LEFT . element_list COMP_MIDDLE comp_bound COMP_RIGHT  (77)
+	element : COMP_LEFT . element_list COMP_MIDDLE ident COMP_MIDDLE comp_bound COMP_RIGHT  (78)
+	element_list : .  (82)
+
+	STRING  shift 28
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	COMP_LEFT  shift 201
+	COMP_MIDDLE  reduce 82
+
+	dots  goto 202
+	ident  goto 203
+	element  goto 204
+	element_list  goto 227
+
+
+state 202
+	element : dots .  (76)
+
+	.  reduce 76
+
+
+state 203
+	element : ident .  (75)
+
+	.  reduce 75
+
+
+state 204
+	element_list : element . element_list  (83)
+	element_list : .  (82)
+
+	STRING  shift 28
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	COMP_LEFT  shift 201
+	COLONCOLON  reduce 82
+	COMP_MIDDLE  reduce 82
+
+	dots  goto 202
+	ident  goto 203
+	element  goto 204
+	element_list  goto 228
+
+
+state 205
+	fundefn : FUNDEFN element_list . COLONCOLON ident COLONCOLON STRING homomorphism_list BY BLANKLINE anylinelist  (115)
+
+	COLONCOLON  shift 229
+	.  error
+
+
+state 206
+	fundefn_list : fundefn fundefn_list .  (114)
+
+	.  reduce 114
+
+
+state 207
+	bindspec : BIND . mse IN ident  (53)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 232
+	ident  goto 233
+
+
+state 208
+	bindspec : NAMES . LPAREN mse RPAREN EQ NAMES LPAREN mse RPAREN  (55)
+	bindspec : NAMES . LPAREN mse RPAREN HASH NAMES LPAREN mse RPAREN  (56)
+
+	LPAREN  shift 234
+	.  error
+
+
+state 209
+	bindspec : DISTINCTNAMES . LPAREN mse RPAREN  (57)
+
+	LPAREN  shift 235
+	.  error
+
+
+state 210
+	bindspeclist : bindspec . bindspeclist  (59)
+	bindspeclist : .  (58)
+
+	STRING  shift 28
+	BIND  shift 207
+	NAMES  shift 208
+	DISTINCTNAMES  shift 209
+	BIND_RIGHT_DELIM  reduce 58
+
+	bindspec  goto 210
+	ident  goto 211
+	bindspeclist  goto 236
+
+
+state 211
+	bindspec : ident . EQ mse  (54)
+
+	EQ  shift 237
+	.  error
+
+
+state 212
+	bindspeclistlist : BIND_LEFT_DELIM bindspeclist . BIND_RIGHT_DELIM bindspeclistlist  (70)
+
+	BIND_RIGHT_DELIM  shift 238
+	.  error
+
+
+state 213
+	hom_section_item : COLONCOLON STRING bindspecall homomorphism_list .  (164)
+
+	.  reduce 164
+
+
+state 214
+	hom_inner : COMP_LEFT ident_and_blanks_list . COMP_MIDDLE comp_bound COMP_RIGHT blanks_list  (38)
+
+	COMP_MIDDLE  shift 239
+	.  error
+
+
+state 215
+	hom_spec_el : DOUBLELEFTBRACKET hom_inner DOUBLERIGHTBRACKET .  (30)
+
+	.  reduce 30
+
+
+state 216
+	hom_inner : ident_and_blanks_list dots . ident_and_blanks_list  (37)
+	ident_and_blanks_list : .  (102)
+
+	STRING  shift 28
+	BLANKS  shift 185
+	DOUBLERIGHTBRACKET  reduce 102
+
+	ident_and_blanks_list  goto 240
+	ident  goto 189
+	blanks  goto 190
+
+
+state 217
+	ident_and_blanks_list : ident ident_and_blanks_list .  (103)
+
+	.  reduce 103
+
+
+state 218
+	ident_and_blanks_list : blanks ident_and_blanks_list .  (104)
+
+	.  reduce 104
+
+
+state 219
+	flavour : BAR .  (91)
+
+	.  reduce 91
+
+
+state 220
+	rule : ne_ident_hom_desc_list COLONCOLON STRING CCE homomorphism_list prodlist .  (87)
+
+	.  reduce 87
+
+
+state 221
+	prodlist : prod . prodlist  (90)
+	prodlist : .  (89)
+
+	BAR  shift 219
+	STRING  reduce 89
+	EOF  reduce 89
+	EMBED  reduce 89
+	METAVAR  reduce 89
+	INDEXVAR  reduce 89
+	RULES  reduce 89
+	SUBRULES  reduce 89
+	CONTEXTRULES  reduce 89
+	SUBSTITUTIONS  reduce 89
+	FREEVARS  reduce 89
+	DEFNCLASS  reduce 89
+	FUNDEFNCLASS  reduce 89
+	HOMS  reduce 89
+	PARSING  reduce 89
+	COQSECTIONBEGIN  reduce 89
+	COQSECTIONEND  reduce 89
+	COQVARIABLE  reduce 89
+
+	prodlist  goto 241
+	prod  goto 221
+	flavour  goto 222
+
+
+state 222
+	prod : flavour . element_list COLONCOLON ident_list COLONCOLON STRING bindspecall homomorphism_list  (88)
+	element_list : .  (82)
+
+	STRING  shift 28
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	COMP_LEFT  shift 201
+	COLONCOLON  reduce 82
+
+	dots  goto 202
+	ident  goto 203
+	element  goto 204
+	element_list  goto 242
+
+
+state 223
+	substitution : substitution_kind ident_desc ident_desc COLONCOLON ident_desc homomorphism_list .  (148)
+
+	.  reduce 148
+
+
+state 224
+	defn : DEFN . element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list  (110)
+	element_list : .  (82)
+
+	STRING  shift 28
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	COMP_LEFT  shift 201
+	COLONCOLON  reduce 82
+
+	dots  goto 202
+	ident  goto 203
+	element  goto 204
+	element_list  goto 243
+
+
+state 225
+	defnclass : STRING COLONCOLON STRING CCE homomorphism_list defn_list .  (107)
+
+	.  reduce 107
+
+
+state 226
+	defn_list : defn . defn_list  (109)
+	defn_list : .  (108)
+
+	DEFN  shift 224
+	EOF  reduce 108
+	EMBED  reduce 108
+	METAVAR  reduce 108
+	INDEXVAR  reduce 108
+	RULES  reduce 108
+	SUBRULES  reduce 108
+	CONTEXTRULES  reduce 108
+	SUBSTITUTIONS  reduce 108
+	FREEVARS  reduce 108
+	DEFNCLASS  reduce 108
+	FUNDEFNCLASS  reduce 108
+	HOMS  reduce 108
+	PARSING  reduce 108
+	COQSECTIONBEGIN  reduce 108
+	COQSECTIONEND  reduce 108
+	COQVARIABLE  reduce 108
+
+	defn_list  goto 244
+	defn  goto 226
+
+
+state 227
+	element : COMP_LEFT element_list . COMP_MIDDLE comp_bound COMP_RIGHT  (77)
+	element : COMP_LEFT element_list . COMP_MIDDLE ident COMP_MIDDLE comp_bound COMP_RIGHT  (78)
+
+	COMP_MIDDLE  shift 245
+	.  error
+
+
+state 228
+	element_list : element element_list .  (83)
+
+	.  reduce 83
+
+
+state 229
+	fundefn : FUNDEFN element_list COLONCOLON . ident COLONCOLON STRING homomorphism_list BY BLANKLINE anylinelist  (115)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 246
+
+
+state 230
+	mse : EMPTY .  (68)
+
+	.  reduce 68
+
+
+state 231
+	mse : COMP_LEFT . ident COMP_MIDDLE comp_bound COMP_RIGHT  (62)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 247
+
+
+state 232
+	bindspec : BIND mse . IN ident  (53)
+	mse : mse . UNION mse  (67)
+
+	IN  shift 248
+	UNION  shift 249
+	.  error
+
+
+state 233
+	mse : ident .  (60)
+	mse : ident . dots ident  (61)
+	mse : ident . LPAREN ident RPAREN  (63)
+	mse : ident . LPAREN ident dots ident RPAREN  (64)
+	mse : ident . LPAREN COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT RPAREN  (65)
+	mse : ident . COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT  (66)
+
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	LPAREN  shift 250
+	COMP_LEFT  shift 251
+	STRING  reduce 60
+	BIND_RIGHT_DELIM  reduce 60
+	BIND  reduce 60
+	IN  reduce 60
+	NAMES  reduce 60
+	DISTINCTNAMES  reduce 60
+	RPAREN  reduce 60
+	UNION  reduce 60
+
+	dots  goto 252
+
+
+state 234
+	bindspec : NAMES LPAREN . mse RPAREN EQ NAMES LPAREN mse RPAREN  (55)
+	bindspec : NAMES LPAREN . mse RPAREN HASH NAMES LPAREN mse RPAREN  (56)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 253
+	ident  goto 233
+
+
+state 235
+	bindspec : DISTINCTNAMES LPAREN . mse RPAREN  (57)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 254
+	ident  goto 233
+
+
+state 236
+	bindspeclist : bindspec bindspeclist .  (59)
+
+	.  reduce 59
+
+
+state 237
+	bindspec : ident EQ . mse  (54)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 255
+	ident  goto 233
+
+
+state 238
+	bindspeclistlist : BIND_LEFT_DELIM bindspeclist BIND_RIGHT_DELIM . bindspeclistlist  (70)
+	bindspeclistlist : .  (69)
+
+	BIND_LEFT_DELIM  shift 181
+	STRING  reduce 69
+	EOF  reduce 69
+	BAR  reduce 69
+	DOUBLELEFTBRACE  reduce 69
+	COLONCOLON  reduce 69
+	EMBED  reduce 69
+	METAVAR  reduce 69
+	INDEXVAR  reduce 69
+	RULES  reduce 69
+	SUBRULES  reduce 69
+	CONTEXTRULES  reduce 69
+	SUBSTITUTIONS  reduce 69
+	FREEVARS  reduce 69
+	DEFNCLASS  reduce 69
+	FUNDEFNCLASS  reduce 69
+	HOMS  reduce 69
+	PARSING  reduce 69
+	COQSECTIONBEGIN  reduce 69
+	COQSECTIONEND  reduce 69
+	COQVARIABLE  reduce 69
+
+	bindspeclistlist  goto 256
+
+
+state 239
+	hom_inner : COMP_LEFT ident_and_blanks_list COMP_MIDDLE . comp_bound COMP_RIGHT blanks_list  (38)
+
+	STRING  shift 28
+	.  error
+
+	comp_bound  goto 257
+	ident  goto 258
+
+
+state 240
+	hom_inner : ident_and_blanks_list dots ident_and_blanks_list .  (37)
+
+	.  reduce 37
+
+
+state 241
+	prodlist : prod prodlist .  (90)
+
+	.  reduce 90
+
+
+state 242
+	prod : flavour element_list . COLONCOLON ident_list COLONCOLON STRING bindspecall homomorphism_list  (88)
+
+	COLONCOLON  shift 259
+	.  error
+
+
+state 243
+	defn : DEFN element_list . COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list  (110)
+
+	COLONCOLON  shift 260
+	.  error
+
+
+state 244
+	defn_list : defn defn_list .  (109)
+
+	.  reduce 109
+
+
+state 245
+	element : COMP_LEFT element_list COMP_MIDDLE . comp_bound COMP_RIGHT  (77)
+	element : COMP_LEFT element_list COMP_MIDDLE . ident COMP_MIDDLE comp_bound COMP_RIGHT  (78)
+
+	STRING  shift 28
+	.  error
+
+	comp_bound  goto 261
+	ident  goto 262
+
+
+state 246
+	fundefn : FUNDEFN element_list COLONCOLON ident . COLONCOLON STRING homomorphism_list BY BLANKLINE anylinelist  (115)
+
+	COLONCOLON  shift 263
+	.  error
+
+
+state 247
+	mse : COMP_LEFT ident . COMP_MIDDLE comp_bound COMP_RIGHT  (62)
+
+	COMP_MIDDLE  shift 264
+	.  error
+
+
+state 248
+	bindspec : BIND mse IN . ident  (53)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 265
+
+
+state 249
+	mse : mse UNION . mse  (67)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 266
+	ident  goto 233
+
+
+state 250
+	mse : ident LPAREN . ident RPAREN  (63)
+	mse : ident LPAREN . ident dots ident RPAREN  (64)
+	mse : ident LPAREN . COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT RPAREN  (65)
+
+	STRING  shift 28
+	COMP_LEFT  shift 267
+	.  error
+
+	ident  goto 268
+
+
+state 251
+	mse : ident COMP_LEFT . ident COMP_MIDDLE comp_bound COMP_RIGHT  (66)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 269
+
+
+state 252
+	mse : ident dots . ident  (61)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 270
+
+
+state 253
+	bindspec : NAMES LPAREN mse . RPAREN EQ NAMES LPAREN mse RPAREN  (55)
+	bindspec : NAMES LPAREN mse . RPAREN HASH NAMES LPAREN mse RPAREN  (56)
+	mse : mse . UNION mse  (67)
+
+	RPAREN  shift 271
+	UNION  shift 249
+	.  error
+
+
+state 254
+	bindspec : DISTINCTNAMES LPAREN mse . RPAREN  (57)
+	mse : mse . UNION mse  (67)
+
+	RPAREN  shift 272
+	UNION  shift 249
+	.  error
+
+
+state 255
+	bindspec : ident EQ mse .  (54)
+	mse : mse . UNION mse  (67)
+
+	UNION  shift 249
+	STRING  reduce 54
+	BIND_RIGHT_DELIM  reduce 54
+	BIND  reduce 54
+	NAMES  reduce 54
+	DISTINCTNAMES  reduce 54
+
+
+state 256
+	bindspeclistlist : BIND_LEFT_DELIM bindspeclist BIND_RIGHT_DELIM bindspeclistlist .  (70)
+
+	.  reduce 70
+
+
+state 257
+	hom_inner : COMP_LEFT ident_and_blanks_list COMP_MIDDLE comp_bound . COMP_RIGHT blanks_list  (38)
+
+	COMP_RIGHT  shift 273
+	.  error
+
+
+state 258
+	comp_bound : ident .  (79)
+	comp_bound : ident . COMP_IN ident  (80)
+	comp_bound : ident . COMP_IN ident dots ident  (81)
+
+	COMP_IN  shift 274
+	COMP_RIGHT  reduce 79
+
+
+state 259
+	prod : flavour element_list COLONCOLON . ident_list COLONCOLON STRING bindspecall homomorphism_list  (88)
+	ident_list : .  (99)
+
+	STRING  shift 28
+	BLANKS  shift 29
+	COLONCOLON  reduce 99
+
+	ident  goto 31
+	ident_list  goto 275
+
+
+state 260
+	defn : DEFN element_list COLONCOLON . ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list  (110)
+	ident_list : .  (99)
+
+	STRING  shift 28
+	BLANKS  shift 29
+	COLONCOLON  reduce 99
+
+	ident  goto 31
+	ident_list  goto 276
+
+
+state 261
+	element : COMP_LEFT element_list COMP_MIDDLE comp_bound . COMP_RIGHT  (77)
+
+	COMP_RIGHT  shift 277
+	.  error
+
+
+state 262
+	element : COMP_LEFT element_list COMP_MIDDLE ident . COMP_MIDDLE comp_bound COMP_RIGHT  (78)
+	comp_bound : ident .  (79)
+	comp_bound : ident . COMP_IN ident  (80)
+	comp_bound : ident . COMP_IN ident dots ident  (81)
+
+	COMP_MIDDLE  shift 278
+	COMP_IN  shift 274
+	COMP_RIGHT  reduce 79
+
+
+state 263
+	fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON . STRING homomorphism_list BY BLANKLINE anylinelist  (115)
+
+	STRING  shift 279
+	.  error
+
+
+state 264
+	mse : COMP_LEFT ident COMP_MIDDLE . comp_bound COMP_RIGHT  (62)
+
+	STRING  shift 28
+	.  error
+
+	comp_bound  goto 280
+	ident  goto 258
+
+
+state 265
+	bindspec : BIND mse IN ident .  (53)
+
+	.  reduce 53
+
+
+state 266
+	mse : mse . UNION mse  (67)
+	mse : mse UNION mse .  (67)
+
+	UNION  shift 249
+	STRING  reduce 67
+	BIND_RIGHT_DELIM  reduce 67
+	BIND  reduce 67
+	IN  reduce 67
+	NAMES  reduce 67
+	DISTINCTNAMES  reduce 67
+	RPAREN  reduce 67
+
+
+state 267
+	mse : ident LPAREN COMP_LEFT . ident COMP_MIDDLE comp_bound COMP_RIGHT RPAREN  (65)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 281
+
+
+state 268
+	mse : ident LPAREN ident . RPAREN  (63)
+	mse : ident LPAREN ident . dots ident RPAREN  (64)
+
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	RPAREN  shift 282
+	.  error
+
+	dots  goto 283
+
+
+state 269
+	mse : ident COMP_LEFT ident . COMP_MIDDLE comp_bound COMP_RIGHT  (66)
+
+	COMP_MIDDLE  shift 284
+	.  error
+
+
+state 270
+	mse : ident dots ident .  (61)
+
+	.  reduce 61
+
+
+state 271
+	bindspec : NAMES LPAREN mse RPAREN . EQ NAMES LPAREN mse RPAREN  (55)
+	bindspec : NAMES LPAREN mse RPAREN . HASH NAMES LPAREN mse RPAREN  (56)
+
+	EQ  shift 285
+	HASH  shift 286
+	.  error
+
+
+state 272
+	bindspec : DISTINCTNAMES LPAREN mse RPAREN .  (57)
+
+	.  reduce 57
+
+
+state 273
+	hom_inner : COMP_LEFT ident_and_blanks_list COMP_MIDDLE comp_bound COMP_RIGHT . blanks_list  (38)
+	blanks_list : .  (105)
+
+	BLANKS  shift 287
+	DOUBLERIGHTBRACKET  reduce 105
+
+	blanks_list  goto 288
+
+
+state 274
+	comp_bound : ident COMP_IN . ident  (80)
+	comp_bound : ident COMP_IN . ident dots ident  (81)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 289
+
+
+state 275
+	prod : flavour element_list COLONCOLON ident_list . COLONCOLON STRING bindspecall homomorphism_list  (88)
+
+	COLONCOLON  shift 290
+	.  error
+
+
+state 276
+	defn : DEFN element_list COLONCOLON ident_list . COLONCOLON STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list  (110)
+
+	COLONCOLON  shift 291
+	.  error
+
+
+state 277
+	element : COMP_LEFT element_list COMP_MIDDLE comp_bound COMP_RIGHT .  (77)
+
+	.  reduce 77
+
+
+state 278
+	element : COMP_LEFT element_list COMP_MIDDLE ident COMP_MIDDLE . comp_bound COMP_RIGHT  (78)
+
+	STRING  shift 28
+	.  error
+
+	comp_bound  goto 292
+	ident  goto 258
+
+
+state 279
+	fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON STRING . homomorphism_list BY BLANKLINE anylinelist  (115)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	BY  reduce 23
+
+	homomorphism_list  goto 293
+	homomorphism  goto 111
+
+
+state 280
+	mse : COMP_LEFT ident COMP_MIDDLE comp_bound . COMP_RIGHT  (62)
+
+	COMP_RIGHT  shift 294
+	.  error
+
+
+state 281
+	mse : ident LPAREN COMP_LEFT ident . COMP_MIDDLE comp_bound COMP_RIGHT RPAREN  (65)
+
+	COMP_MIDDLE  shift 295
+	.  error
+
+
+state 282
+	mse : ident LPAREN ident RPAREN .  (63)
+
+	.  reduce 63
+
+
+state 283
+	mse : ident LPAREN ident dots . ident RPAREN  (64)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 296
+
+
+state 284
+	mse : ident COMP_LEFT ident COMP_MIDDLE . comp_bound COMP_RIGHT  (66)
+
+	STRING  shift 28
+	.  error
+
+	comp_bound  goto 297
+	ident  goto 258
+
+
+state 285
+	bindspec : NAMES LPAREN mse RPAREN EQ . NAMES LPAREN mse RPAREN  (55)
+
+	NAMES  shift 298
+	.  error
+
+
+state 286
+	bindspec : NAMES LPAREN mse RPAREN HASH . NAMES LPAREN mse RPAREN  (56)
+
+	NAMES  shift 299
+	.  error
+
+
+state 287
+	blanks_list : BLANKS . blanks_list  (106)
+	blanks_list : .  (105)
+
+	BLANKS  shift 287
+	DOUBLERIGHTBRACKET  reduce 105
+
+	blanks_list  goto 300
+
+
+state 288
+	hom_inner : COMP_LEFT ident_and_blanks_list COMP_MIDDLE comp_bound COMP_RIGHT blanks_list .  (38)
+
+	.  reduce 38
+
+
+state 289
+	comp_bound : ident COMP_IN ident .  (80)
+	comp_bound : ident COMP_IN ident . dots ident  (81)
+
+	DOTDOT  shift 198
+	DOTDOTDOT  shift 199
+	DOTDOTDOTDOT  shift 200
+	COMP_RIGHT  reduce 80
+
+	dots  goto 301
+
+
+state 290
+	prod : flavour element_list COLONCOLON ident_list COLONCOLON . STRING bindspecall homomorphism_list  (88)
+
+	STRING  shift 302
+	.  error
+
+
+state 291
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON . STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list  (110)
+
+	STRING  shift 303
+	.  error
+
+
+state 292
+	element : COMP_LEFT element_list COMP_MIDDLE ident COMP_MIDDLE comp_bound . COMP_RIGHT  (78)
+
+	COMP_RIGHT  shift 304
+	.  error
+
+
+state 293
+	fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON STRING homomorphism_list . BY BLANKLINE anylinelist  (115)
+
+	BY  shift 305
+	.  error
+
+
+state 294
+	mse : COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT .  (62)
+
+	.  reduce 62
+
+
+state 295
+	mse : ident LPAREN COMP_LEFT ident COMP_MIDDLE . comp_bound COMP_RIGHT RPAREN  (65)
+
+	STRING  shift 28
+	.  error
+
+	comp_bound  goto 306
+	ident  goto 258
+
+
+state 296
+	mse : ident LPAREN ident dots ident . RPAREN  (64)
+
+	RPAREN  shift 307
+	.  error
+
+
+state 297
+	mse : ident COMP_LEFT ident COMP_MIDDLE comp_bound . COMP_RIGHT  (66)
+
+	COMP_RIGHT  shift 308
+	.  error
+
+
+state 298
+	bindspec : NAMES LPAREN mse RPAREN EQ NAMES . LPAREN mse RPAREN  (55)
+
+	LPAREN  shift 309
+	.  error
+
+
+state 299
+	bindspec : NAMES LPAREN mse RPAREN HASH NAMES . LPAREN mse RPAREN  (56)
+
+	LPAREN  shift 310
+	.  error
+
+
+state 300
+	blanks_list : BLANKS blanks_list .  (106)
+
+	.  reduce 106
+
+
+state 301
+	comp_bound : ident COMP_IN ident dots . ident  (81)
+
+	STRING  shift 28
+	.  error
+
+	ident  goto 311
+
+
+state 302
+	prod : flavour element_list COLONCOLON ident_list COLONCOLON STRING . bindspecall homomorphism_list  (88)
+	bindspeclistlist : .  (69)
+
+	BIND_LEFT_DELIM  shift 181
+	STRING  reduce 69
+	EOF  reduce 69
+	BAR  reduce 69
+	DOUBLELEFTBRACE  reduce 69
+	EMBED  reduce 69
+	METAVAR  reduce 69
+	INDEXVAR  reduce 69
+	RULES  reduce 69
+	SUBRULES  reduce 69
+	CONTEXTRULES  reduce 69
+	SUBSTITUTIONS  reduce 69
+	FREEVARS  reduce 69
+	DEFNCLASS  reduce 69
+	FUNDEFNCLASS  reduce 69
+	HOMS  reduce 69
+	PARSING  reduce 69
+	COQSECTIONBEGIN  reduce 69
+	COQSECTIONEND  reduce 69
+	COQVARIABLE  reduce 69
+
+	bindspeclistlist  goto 182
+	bindspecall  goto 312
+
+
+state 303
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING . COLONCOLON STRING homomorphism_list BY semiraw_rule_list  (110)
+
+	COLONCOLON  shift 313
+	.  error
+
+
+state 304
+	element : COMP_LEFT element_list COMP_MIDDLE ident COMP_MIDDLE comp_bound COMP_RIGHT .  (78)
+
+	.  reduce 78
+
+
+state 305
+	fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON STRING homomorphism_list BY . BLANKLINE anylinelist  (115)
+
+	BLANKLINE  shift 314
+	.  error
+
+
+state 306
+	mse : ident LPAREN COMP_LEFT ident COMP_MIDDLE comp_bound . COMP_RIGHT RPAREN  (65)
+
+	COMP_RIGHT  shift 315
+	.  error
+
+
+state 307
+	mse : ident LPAREN ident dots ident RPAREN .  (64)
+
+	.  reduce 64
+
+
+state 308
+	mse : ident COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT .  (66)
+
+	.  reduce 66
+
+
+state 309
+	bindspec : NAMES LPAREN mse RPAREN EQ NAMES LPAREN . mse RPAREN  (55)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 316
+	ident  goto 233
+
+
+state 310
+	bindspec : NAMES LPAREN mse RPAREN HASH NAMES LPAREN . mse RPAREN  (56)
+
+	STRING  shift 28
+	EMPTY  shift 230
+	COMP_LEFT  shift 231
+	.  error
+
+	mse  goto 317
+	ident  goto 233
+
+
+state 311
+	comp_bound : ident COMP_IN ident dots ident .  (81)
+
+	.  reduce 81
+
+
+state 312
+	prod : flavour element_list COLONCOLON ident_list COLONCOLON STRING bindspecall . homomorphism_list  (88)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	STRING  reduce 23
+	EOF  reduce 23
+	BAR  reduce 23
+	EMBED  reduce 23
+	METAVAR  reduce 23
+	INDEXVAR  reduce 23
+	RULES  reduce 23
+	SUBRULES  reduce 23
+	CONTEXTRULES  reduce 23
+	SUBSTITUTIONS  reduce 23
+	FREEVARS  reduce 23
+	DEFNCLASS  reduce 23
+	FUNDEFNCLASS  reduce 23
+	HOMS  reduce 23
+	PARSING  reduce 23
+	COQSECTIONBEGIN  reduce 23
+	COQSECTIONEND  reduce 23
+	COQVARIABLE  reduce 23
+
+	homomorphism_list  goto 318
+	homomorphism  goto 111
+
+
+state 313
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON . STRING homomorphism_list BY semiraw_rule_list  (110)
+
+	STRING  shift 319
+	.  error
+
+
+state 314
+	fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON STRING homomorphism_list BY BLANKLINE . anylinelist  (115)
+	anylinelist : .  (116)
+
+	LINE  shift 320
+	BLANKLINE  shift 321
+	COMMENTLINE  shift 322
+	EOF  reduce 116
+	EMBED  reduce 116
+	METAVAR  reduce 116
+	INDEXVAR  reduce 116
+	RULES  reduce 116
+	SUBRULES  reduce 116
+	CONTEXTRULES  reduce 116
+	SUBSTITUTIONS  reduce 116
+	FREEVARS  reduce 116
+	DEFNCLASS  reduce 116
+	FUNDEFNCLASS  reduce 116
+	FUNDEFN  reduce 116
+	HOMS  reduce 116
+	PARSING  reduce 116
+	COQSECTIONBEGIN  reduce 116
+	COQSECTIONEND  reduce 116
+	COQVARIABLE  reduce 116
+
+	anylinelist  goto 323
+	line  goto 324
+
+
+state 315
+	mse : ident LPAREN COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT . RPAREN  (65)
+
+	RPAREN  shift 325
+	.  error
+
+
+state 316
+	bindspec : NAMES LPAREN mse RPAREN EQ NAMES LPAREN mse . RPAREN  (55)
+	mse : mse . UNION mse  (67)
+
+	RPAREN  shift 326
+	UNION  shift 249
+	.  error
+
+
+state 317
+	bindspec : NAMES LPAREN mse RPAREN HASH NAMES LPAREN mse . RPAREN  (56)
+	mse : mse . UNION mse  (67)
+
+	RPAREN  shift 327
+	UNION  shift 249
+	.  error
+
+
+state 318
+	prod : flavour element_list COLONCOLON ident_list COLONCOLON STRING bindspecall homomorphism_list .  (88)
+
+	.  reduce 88
+
+
+state 319
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING . homomorphism_list BY semiraw_rule_list  (110)
+	homomorphism_list : .  (23)
+
+	DOUBLELEFTBRACE  shift 109
+	BY  reduce 23
+
+	homomorphism_list  goto 328
+	homomorphism  goto 111
+
+
+state 320
+	line : LINE .  (120)
+
+	.  reduce 120
+
+
+state 321
+	anylinelist : BLANKLINE . anylinelist  (119)
+	anylinelist : .  (116)
+
+	LINE  shift 320
+	BLANKLINE  shift 321
+	COMMENTLINE  shift 322
+	EOF  reduce 116
+	EMBED  reduce 116
+	METAVAR  reduce 116
+	INDEXVAR  reduce 116
+	RULES  reduce 116
+	SUBRULES  reduce 116
+	CONTEXTRULES  reduce 116
+	SUBSTITUTIONS  reduce 116
+	FREEVARS  reduce 116
+	DEFNCLASS  reduce 116
+	FUNDEFNCLASS  reduce 116
+	FUNDEFN  reduce 116
+	HOMS  reduce 116
+	PARSING  reduce 116
+	COQSECTIONBEGIN  reduce 116
+	COQSECTIONEND  reduce 116
+	COQVARIABLE  reduce 116
+
+	anylinelist  goto 329
+	line  goto 324
+
+
+state 322
+	anylinelist : COMMENTLINE . anylinelist  (118)
+	anylinelist : .  (116)
+
+	LINE  shift 320
+	BLANKLINE  shift 321
+	COMMENTLINE  shift 322
+	EOF  reduce 116
+	EMBED  reduce 116
+	METAVAR  reduce 116
+	INDEXVAR  reduce 116
+	RULES  reduce 116
+	SUBRULES  reduce 116
+	CONTEXTRULES  reduce 116
+	SUBSTITUTIONS  reduce 116
+	FREEVARS  reduce 116
+	DEFNCLASS  reduce 116
+	FUNDEFNCLASS  reduce 116
+	FUNDEFN  reduce 116
+	HOMS  reduce 116
+	PARSING  reduce 116
+	COQSECTIONBEGIN  reduce 116
+	COQSECTIONEND  reduce 116
+	COQVARIABLE  reduce 116
+
+	anylinelist  goto 330
+	line  goto 324
+
+
+state 323
+	fundefn : FUNDEFN element_list COLONCOLON ident COLONCOLON STRING homomorphism_list BY BLANKLINE anylinelist .  (115)
+
+	.  reduce 115
+
+
+state 324
+	anylinelist : line . anylinelist  (117)
+	anylinelist : .  (116)
+
+	LINE  shift 320
+	BLANKLINE  shift 321
+	COMMENTLINE  shift 322
+	EOF  reduce 116
+	EMBED  reduce 116
+	METAVAR  reduce 116
+	INDEXVAR  reduce 116
+	RULES  reduce 116
+	SUBRULES  reduce 116
+	CONTEXTRULES  reduce 116
+	SUBSTITUTIONS  reduce 116
+	FREEVARS  reduce 116
+	DEFNCLASS  reduce 116
+	FUNDEFNCLASS  reduce 116
+	FUNDEFN  reduce 116
+	HOMS  reduce 116
+	PARSING  reduce 116
+	COQSECTIONBEGIN  reduce 116
+	COQSECTIONEND  reduce 116
+	COQVARIABLE  reduce 116
+
+	anylinelist  goto 331
+	line  goto 324
+
+
+state 325
+	mse : ident LPAREN COMP_LEFT ident COMP_MIDDLE comp_bound COMP_RIGHT RPAREN .  (65)
+
+	.  reduce 65
+
+
+state 326
+	bindspec : NAMES LPAREN mse RPAREN EQ NAMES LPAREN mse RPAREN .  (55)
+
+	.  reduce 55
+
+
+state 327
+	bindspec : NAMES LPAREN mse RPAREN HASH NAMES LPAREN mse RPAREN .  (56)
+
+	.  reduce 56
+
+
+state 328
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list . BY semiraw_rule_list  (110)
+
+	BY  shift 332
+	.  error
+
+
+state 329
+	anylinelist : BLANKLINE anylinelist .  (119)
+
+	.  reduce 119
+
+
+state 330
+	anylinelist : COMMENTLINE anylinelist .  (118)
+
+	.  reduce 118
+
+
+state 331
+	anylinelist : line anylinelist .  (117)
+
+	.  reduce 117
+
+
+state 332
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list BY . semiraw_rule_list  (110)
+	blanklinelist : .  (129)
+
+	BLANKLINE  shift 333
+	EOF  reduce 129
+	EMBED  reduce 129
+	METAVAR  reduce 129
+	INDEXVAR  reduce 129
+	RULES  reduce 129
+	SUBRULES  reduce 129
+	CONTEXTRULES  reduce 129
+	SUBSTITUTIONS  reduce 129
+	FREEVARS  reduce 129
+	DEFNCLASS  reduce 129
+	DEFN  reduce 129
+	FUNDEFNCLASS  reduce 129
+	HOMS  reduce 129
+	PARSING  reduce 129
+	COQSECTIONBEGIN  reduce 129
+	COQSECTIONEND  reduce 129
+	COQVARIABLE  reduce 129
+
+	semiraw_rule_list  goto 334
+	blanklinelist  goto 335
+	neblanklinelist  goto 336
+
+
+state 333
+	blanklinelist : BLANKLINE . blanklinelist  (130)
+	neblanklinelist : BLANKLINE .  (131)
+	neblanklinelist : BLANKLINE . neblanklinelist  (132)
+	blanklinelist : .  (129)
+
+	BLANKLINE  shift 333
+	LINE  reduce 131
+	LINELINE  reduce 131
+	COMMENTLINE  reduce 131
+	EOF  reduce 129
+	EMBED  reduce 129
+	METAVAR  reduce 129
+	INDEXVAR  reduce 129
+	RULES  reduce 129
+	SUBRULES  reduce 129
+	CONTEXTRULES  reduce 129
+	SUBSTITUTIONS  reduce 129
+	FREEVARS  reduce 129
+	DEFNCLASS  reduce 129
+	DEFN  reduce 129
+	FUNDEFNCLASS  reduce 129
+	DEFNCOM  reduce 131
+	HOMS  reduce 129
+	PARSING  reduce 129
+	COQSECTIONBEGIN  reduce 129
+	COQSECTIONEND  reduce 129
+	COQVARIABLE  reduce 129
+
+	blanklinelist  goto 337
+	neblanklinelist  goto 338
+
+
+state 334
+	defn : DEFN element_list COLONCOLON ident_list COLONCOLON STRING COLONCOLON STRING homomorphism_list BY semiraw_rule_list .  (110)
+
+	.  reduce 110
+
+
+state 335
+	semiraw_rule_list : blanklinelist .  (134)
+
+	.  reduce 134
+
+
+state 336
+	semiraw_rule_list : neblanklinelist . semiraw_rule semiraw_rule_list  (135)
+	semiraw_rule_list : neblanklinelist . defncom semiraw_rule_list  (136)
+	linelist : .  (122)
+
+	LINE  shift 320
+	COMMENTLINE  shift 339
+	DEFNCOM  shift 340
+	LINELINE  reduce 122
+
+	line  goto 341
+	linelist  goto 342
+	nelinelist  goto 343
+	semiraw_rule  goto 344
+	defncom  goto 345
+
+
+state 337
+	blanklinelist : BLANKLINE blanklinelist .  (130)
+
+	.  reduce 130
+
+
+state 338
+	neblanklinelist : BLANKLINE neblanklinelist .  (132)
+
+	.  reduce 132
+
+
+state 339
+	linelist : COMMENTLINE . linelist  (124)
+	nelinelist : COMMENTLINE . linelist  (126)
+	linelist : .  (122)
+
+	LINE  shift 320
+	COMMENTLINE  shift 346
+	LINELINE  reduce 122
+	BLANKLINE  reduce 122
+	EOF  reduce 122
+	EMBED  reduce 122
+	METAVAR  reduce 122
+	INDEXVAR  reduce 122
+	RULES  reduce 122
+	SUBRULES  reduce 122
+	CONTEXTRULES  reduce 122
+	SUBSTITUTIONS  reduce 122
+	FREEVARS  reduce 122
+	DEFNCLASS  reduce 122
+	DEFN  reduce 122
+	FUNDEFNCLASS  reduce 122
+	HOMS  reduce 122
+	PARSING  reduce 122
+	COQSECTIONBEGIN  reduce 122
+	COQSECTIONEND  reduce 122
+	COQVARIABLE  reduce 122
+
+	line  goto 347
+	linelist  goto 348
+
+
+state 340
+	defncom : DEFNCOM . embed_spec_el_list DOUBLERIGHTBRACE  (133)
+	embed_spec_el_list : .  (42)
+
+	STRING  shift 38
+	BLANKS  shift 39
+	DOUBLELEFTBRACKET  shift 40
+	DOTDOT  shift 41
+	DOTDOTDOT  shift 42
+	DOTDOTDOTDOT  shift 43
+	DOUBLERIGHTBRACE  reduce 42
+
+	embed_spec_el_list  goto 349
+	embed_spec_el  goto 45
+
+
+state 341
+	linelist : line . linelist  (123)
+	nelinelist : line . linelist  (125)
+	linelist : .  (122)
+
+	LINE  shift 320
+	COMMENTLINE  shift 346
+	LINELINE  reduce 122
+	BLANKLINE  reduce 122
+	EOF  reduce 122
+	EMBED  reduce 122
+	METAVAR  reduce 122
+	INDEXVAR  reduce 122
+	RULES  reduce 122
+	SUBRULES  reduce 122
+	CONTEXTRULES  reduce 122
+	SUBSTITUTIONS  reduce 122
+	FREEVARS  reduce 122
+	DEFNCLASS  reduce 122
+	DEFN  reduce 122
+	FUNDEFNCLASS  reduce 122
+	HOMS  reduce 122
+	PARSING  reduce 122
+	COQSECTIONBEGIN  reduce 122
+	COQSECTIONEND  reduce 122
+	COQVARIABLE  reduce 122
+
+	line  goto 347
+	linelist  goto 350
+
+
+state 342
+	semiraw_rule : linelist . lineline linelist  (127)
+
+	LINELINE  shift 351
+	.  error
+
+	lineline  goto 352
+
+
+state 343
+	semiraw_rule : nelinelist .  (128)
+
+	.  reduce 128
+
+
+state 344
+	semiraw_rule_list : neblanklinelist semiraw_rule . semiraw_rule_list  (135)
+	blanklinelist : .  (129)
+
+	BLANKLINE  shift 333
+	EOF  reduce 129
+	EMBED  reduce 129
+	METAVAR  reduce 129
+	INDEXVAR  reduce 129
+	RULES  reduce 129
+	SUBRULES  reduce 129
+	CONTEXTRULES  reduce 129
+	SUBSTITUTIONS  reduce 129
+	FREEVARS  reduce 129
+	DEFNCLASS  reduce 129
+	DEFN  reduce 129
+	FUNDEFNCLASS  reduce 129
+	HOMS  reduce 129
+	PARSING  reduce 129
+	COQSECTIONBEGIN  reduce 129
+	COQSECTIONEND  reduce 129
+	COQVARIABLE  reduce 129
+
+	semiraw_rule_list  goto 353
+	blanklinelist  goto 335
+	neblanklinelist  goto 336
+
+
+state 345
+	semiraw_rule_list : neblanklinelist defncom . semiraw_rule_list  (136)
+	blanklinelist : .  (129)
+
+	BLANKLINE  shift 333
+	EOF  reduce 129
+	EMBED  reduce 129
+	METAVAR  reduce 129
+	INDEXVAR  reduce 129
+	RULES  reduce 129
+	SUBRULES  reduce 129
+	CONTEXTRULES  reduce 129
+	SUBSTITUTIONS  reduce 129
+	FREEVARS  reduce 129
+	DEFNCLASS  reduce 129
+	DEFN  reduce 129
+	FUNDEFNCLASS  reduce 129
+	HOMS  reduce 129
+	PARSING  reduce 129
+	COQSECTIONBEGIN  reduce 129
+	COQSECTIONEND  reduce 129
+	COQVARIABLE  reduce 129
+
+	semiraw_rule_list  goto 354
+	blanklinelist  goto 335
+	neblanklinelist  goto 336
+
+
+state 346
+	linelist : COMMENTLINE . linelist  (124)
+	linelist : .  (122)
+
+	LINE  shift 320
+	COMMENTLINE  shift 346
+	LINELINE  reduce 122
+	BLANKLINE  reduce 122
+	EOF  reduce 122
+	EMBED  reduce 122
+	METAVAR  reduce 122
+	INDEXVAR  reduce 122
+	RULES  reduce 122
+	SUBRULES  reduce 122
+	CONTEXTRULES  reduce 122
+	SUBSTITUTIONS  reduce 122
+	FREEVARS  reduce 122
+	DEFNCLASS  reduce 122
+	DEFN  reduce 122
+	FUNDEFNCLASS  reduce 122
+	HOMS  reduce 122
+	PARSING  reduce 122
+	COQSECTIONBEGIN  reduce 122
+	COQSECTIONEND  reduce 122
+	COQVARIABLE  reduce 122
+
+	line  goto 347
+	linelist  goto 355
+
+
+state 347
+	linelist : line . linelist  (123)
+	linelist : .  (122)
+
+	LINE  shift 320
+	COMMENTLINE  shift 346
+	LINELINE  reduce 122
+	BLANKLINE  reduce 122
+	EOF  reduce 122
+	EMBED  reduce 122
+	METAVAR  reduce 122
+	INDEXVAR  reduce 122
+	RULES  reduce 122
+	SUBRULES  reduce 122
+	CONTEXTRULES  reduce 122
+	SUBSTITUTIONS  reduce 122
+	FREEVARS  reduce 122
+	DEFNCLASS  reduce 122
+	DEFN  reduce 122
+	FUNDEFNCLASS  reduce 122
+	HOMS  reduce 122
+	PARSING  reduce 122
+	COQSECTIONBEGIN  reduce 122
+	COQSECTIONEND  reduce 122
+	COQVARIABLE  reduce 122
+
+	line  goto 347
+	linelist  goto 356
+
+
+state 348
+	linelist : COMMENTLINE linelist .  (124)
+	nelinelist : COMMENTLINE linelist .  (126)
+
+	LINELINE  reduce 124
+	BLANKLINE  reduce 126
+	EOF  reduce 126
+	EMBED  reduce 126
+	METAVAR  reduce 126
+	INDEXVAR  reduce 126
+	RULES  reduce 126
+	SUBRULES  reduce 126
+	CONTEXTRULES  reduce 126
+	SUBSTITUTIONS  reduce 126
+	FREEVARS  reduce 126
+	DEFNCLASS  reduce 126
+	DEFN  reduce 126
+	FUNDEFNCLASS  reduce 126
+	HOMS  reduce 126
+	PARSING  reduce 126
+	COQSECTIONBEGIN  reduce 126
+	COQSECTIONEND  reduce 126
+	COQVARIABLE  reduce 126
+
+
+state 349
+	defncom : DEFNCOM embed_spec_el_list . DOUBLERIGHTBRACE  (133)
+
+	DOUBLERIGHTBRACE  shift 357
+	.  error
+
+
+state 350
+	linelist : line linelist .  (123)
+	nelinelist : line linelist .  (125)
+
+	LINELINE  reduce 123
+	BLANKLINE  reduce 125
+	EOF  reduce 125
+	EMBED  reduce 125
+	METAVAR  reduce 125
+	INDEXVAR  reduce 125
+	RULES  reduce 125
+	SUBRULES  reduce 125
+	CONTEXTRULES  reduce 125
+	SUBSTITUTIONS  reduce 125
+	FREEVARS  reduce 125
+	DEFNCLASS  reduce 125
+	DEFN  reduce 125
+	FUNDEFNCLASS  reduce 125
+	HOMS  reduce 125
+	PARSING  reduce 125
+	COQSECTIONBEGIN  reduce 125
+	COQSECTIONEND  reduce 125
+	COQVARIABLE  reduce 125
+
+
+state 351
+	lineline : LINELINE .  (121)
+
+	.  reduce 121
+
+
+state 352
+	semiraw_rule : linelist lineline . linelist  (127)
+	linelist : .  (122)
+
+	LINE  shift 320
+	COMMENTLINE  shift 346
+	BLANKLINE  reduce 122
+	EOF  reduce 122
+	EMBED  reduce 122
+	METAVAR  reduce 122
+	INDEXVAR  reduce 122
+	RULES  reduce 122
+	SUBRULES  reduce 122
+	CONTEXTRULES  reduce 122
+	SUBSTITUTIONS  reduce 122
+	FREEVARS  reduce 122
+	DEFNCLASS  reduce 122
+	DEFN  reduce 122
+	FUNDEFNCLASS  reduce 122
+	HOMS  reduce 122
+	PARSING  reduce 122
+	COQSECTIONBEGIN  reduce 122
+	COQSECTIONEND  reduce 122
+	COQVARIABLE  reduce 122
+
+	line  goto 347
+	linelist  goto 358
+
+
+state 353
+	semiraw_rule_list : neblanklinelist semiraw_rule semiraw_rule_list .  (135)
+
+	.  reduce 135
+
+
+state 354
+	semiraw_rule_list : neblanklinelist defncom semiraw_rule_list .  (136)
+
+	.  reduce 136
+
+
+state 355
+	linelist : COMMENTLINE linelist .  (124)
+
+	.  reduce 124
+
+
+state 356
+	linelist : line linelist .  (123)
+
+	.  reduce 123
+
+
+state 357
+	defncom : DEFNCOM embed_spec_el_list DOUBLERIGHTBRACE .  (133)
+
+	.  reduce 133
+
+
+state 358
+	semiraw_rule : linelist lineline linelist .  (127)
+
+	.  reduce 127
+
+
+Rules never reduced:
+	ident_desc_list :  (95)
+	ident_desc_list : ident_desc COMMA ident_desc_list  (96)
+
+
+69 terminals, 87 nonterminals
+183 grammar rules, 359 states
