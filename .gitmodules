@@ -4,3 +4,6 @@
 [submodule "vim/bundles/Vundle.vim"]
 	path = vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
+[submodule "bin/couchpotato"]
+	path = bin/couchpotato
+	url = git://github.com/RuudBurger/CouchPotatoServer.git
