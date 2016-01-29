@@ -19,6 +19,9 @@ Plugin 'Shougo/neocomplcache.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'AfterColors.vim'
+Plugin 'tpope/vim-fireplace'
+Plugin 'raymond-w-ko/vim-niji'
+Plugin 'paredit.vim'
  
 Bundle "myusuf3/numbers.vim"
 Bundle "wookiehangover/jshint.vim"

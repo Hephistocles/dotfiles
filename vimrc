@@ -36,6 +36,7 @@ set ignorecase
 set smartcase
 
 "" Custom remaps
+let mapleader=","
 
 "" Disable arrow keys
 noremap <Up> <NOP>
@@ -61,6 +62,9 @@ imap <C-Enter> <Enter><Esc>O
 imap <C-h> B
 imap <C-l> w
 imap <C-j> <Esc>gqjkA
+imap jk <Esc>
+inoremap <expr> <c-j> ("\<C-n>")
+inoremap <expr> <c-k> ("\<C-p>")
 
 cmap <C-a> <Home>
 cmap <C-e> <End>
