@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/christoph/Main/dev/clojure-noob'
+let g:netrw_dirhist_2='/home/christoph/Main/dev/clojure-noob/src'
+let g:netrw_dirhist_3='/home/christoph/Main/dev/clojure-noob/src/clojure_noob'
+let g:netrw_dirhist_4='/home/christoph/Main/dev/clojure/fwpd'
+let g:netrw_dirhist_5='/home/christoph/Main/dev/clojure/peg'
+let g:netrw_dirhist_6='/home/christoph/Main/dev/clojure/peg/src'
+let g:netrw_dirhist_7='/home/christoph/Main/dev/clojure/peg/src/peg'

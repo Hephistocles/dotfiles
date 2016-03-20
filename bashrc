@@ -56,12 +56,13 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+#if [ "$color_prompt" = yes ]; then
+    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#else
+    #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
+#unset color_prompt force_color_prompt
+export PS1="\[\033[38;5;8m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;6m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -120,8 +121,9 @@ export PATH=$SCALA_HOME/bin:$PATH
 export PATH=/opt/intellij/bin:$PATH
 export PATH=/opt/storm/bin:$PATH
 export PATH=/opt/maven/bin:$PATH
+
 function _update_ps1() {
-    PS1="\n$(~/powerline-shell.py $? 2> /dev/null)"
+    PS1="\n$(~/.dotfiles/powerline-shell.py $? 2> /dev/null)"
 }
 
 if [ "$TERM" != "linux" ]; then
