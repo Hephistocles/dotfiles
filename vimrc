@@ -38,10 +38,10 @@ set smartcase
 "" Custom remaps
 
 "" Disable arrow keys
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+"" noremap <Up> <NOP>
+"" noremap <Down> <NOP>
+"" noremap <Left> <NOP>
+"" noremap <Right> <NOP>
 
 "" newline without insert mode
 nmap <Leader>O O<Esc>
@@ -61,6 +61,7 @@ imap <C-Enter> <Enter><Esc>O
 imap <C-h> B
 imap <C-l> w
 imap <C-j> <Esc>gqjkA
+imap jk <Esc>
 
 cmap <C-a> <Home>
 cmap <C-e> <End>

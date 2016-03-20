@@ -115,3 +115,15 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+export SCALA_HOME=/usr/local/src/scala/scala-2.10.4
+export PATH=$SCALA_HOME/bin:$PATH
+export PATH=/opt/intellij/bin:$PATH
+export PATH=/opt/storm/bin:$PATH
+export PATH=/opt/maven/bin:$PATH
+function _update_ps1() {
+    PS1="\n$(~/powerline-shell.py $? 2> /dev/null)"
+}
+
+if [ "$TERM" != "linux" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
