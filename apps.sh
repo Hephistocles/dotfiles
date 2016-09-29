@@ -21,10 +21,18 @@ sleep 2
 # Add all the repositories
 echo "Adding Repositories" 
 (
+	# server utilities
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+
+	# desktop standards
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
 sudo echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D2C19886 && echo deb http://repository.spotify.com testing non-free | tee /etc/apt/sources.list.d/spotify.list
 sudo apt-add-repository ppa:webupd8team/sublime-text-3 -y
+# Theme seems to break too often
+# sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_15.10/ /' >> /etc/apt/sources.list.d/arc-theme.list"
+
+	# media
 sudo apt-add-repository ppa:plexapp/plexht -y
 sudo apt-add-repository ppa:jon-severinsson/ffmpeg -y
 sudo apt-add-repository ppa:webupd8team/popcorntime -y 
@@ -33,13 +41,53 @@ sudo apt-add-repository ppa:deluge-team/ppa -y
 sudo add-apt-repository ppa:jcfp/ppa
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC
 echo "deb http://apt.sonarr.tv/ master main" | tee /etc/apt/sources.list.d/sonarr.list
-sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_15.10/ /' >> /etc/apt/sources.list.d/arc-theme.list"
-curl -sL https://deb.nodesource.com/setup | sudo bash -
 ) &> /tmp/repolog && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
 echo "Updating System" 
 (
 apt-get update
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+#############
+# Utilities #
+#############
+
+echo "Installing Git"
+(
+apt-get -y install git git-core
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Vim"
+(
+apt-get -y install vim-gtk
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Python"
+(
+apt-get -y install python
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Node"
+(
+apt-get -y install nodejs build-essential
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing file archiving resources"
+(
+apt-get install unace rar unrar p7zip-rar p7zip zip unzip sharutils uudeview mpack arj cabextract file-roller -y
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+#############
+#  Desktop  #
+#############
+echo "Installing Spotify"
+(
+apt-get install spotify-client -y
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Sublime 3"
+(
+apt-get -y install sublime-text-installer
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
 echo "Installing VLC"
@@ -52,15 +100,46 @@ echo "Installing Deluge"
 apt-get install deluge -y 
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
-echo "Installing Spotify"
+echo "Installing Chrome"
 (
-apt-get install spotify-client -y
+apt-get -y install google-chrome-stable
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
-echo "Installing Sublime 3"
+echo "Installing Guake"
 (
-apt-get -y install sublime-text-installer
+apt-get -y install guake
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Arc Theme"
+(
+	apt-get -y install arc-theme
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing TexLive"
+(
+apt-get -y install texlive
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing SABnzbd"
+(
+apt-get -y install sabnzbdplus
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Skype"
+(
+apt-get -y install skype 
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+echo "Installing Slack"
+(
+	wget -O - https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb > /tmp/slack
+	apt-get -y install /tmp/slack 
+) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
+
+
+#############
+#   Media   #
+#############
 
 echo "Installing KODI Media Center"
 (
@@ -78,11 +157,6 @@ echo "Installing Stremio"
 	mv stremio.desktop /usr/share/applications/
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
-echo "Installing Chrome"
-(
-apt-get -y install google-chrome-stable
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
 echo "Installing Popcorn Time"
 (
 	p=`mktemp`
@@ -92,39 +166,9 @@ echo "Installing Popcorn Time"
 	./install
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
-echo "Installing Git"
-(
-apt-get -y install git git-core
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Guake"
-(
-apt-get -y install guake
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
 echo "Installing CouchPotato"
 (
 git clone git://github.com/RuudBurger/CouchPotatoServer.git ~/.couchpotato
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Arc Theme"
-(
-	apt-get -y install arc-theme
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Vim"
-(
-apt-get -y install vim-gtk
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing TexLive"
-(
-apt-get -y install texlive
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing SABnzbd"
-(
-apt-get -y install sabnzbdplus
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
 echo "Installing Sonarr"
@@ -137,38 +181,6 @@ echo "Installing Plex Home Theater"
 apt-get -y install plexhometheater
 ) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
 
-echo "Installing Python"
-(
-apt-get -y install python
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Node"
-(
-apt-get -y install nodejs build-essential
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Skype"
-(
-apt-get -y install skype 
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Slack"
-(
-	wget -O - https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb > /tmp/slack
-	apt-get -y install /tmp/slack 
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing file archiving resources"
-(
-apt-get install unace rar unrar p7zip-rar p7zip zip unzip sharutils uudeview mpack arj cabextract file-roller -y
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-echo "Installing Personal Dotfiles"
-(
-	git clone git://github.com/Hephistocles/dotfiles.git ~/.dotfiles
-) &> /dev/null && echo -e "$green OK $endcolor" || echo -e "$red FAILED $endcolor"; # Hide all output
-
-~/.dotfiles/install
 
 echo "Cleaning up"
 (
