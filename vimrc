@@ -39,10 +39,10 @@ set smartcase
 let mapleader=","
 
 "" Disable arrow keys
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+"" noremap <Up> <NOP>
+"" noremap <Down> <NOP>
+"" noremap <Left> <NOP>
+"" noremap <Right> <NOP>
 
 "" newline without insert mode
 nmap <Leader>O O<Esc>
@@ -65,7 +65,6 @@ imap <C-j> <Esc>gqjkA
 imap jk <Esc>
 inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
-
 cmap <C-a> <Home>
 cmap <C-e> <End>
 
