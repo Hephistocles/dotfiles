@@ -1,0 +1,28 @@
+{
+	"added_words":
+	[
+		"Grapht",
+		"prefetching",
+		"prefetcher",
+		"vertices",
+		"Grapht's",
+		"Yoneki",
+		"Ubuntu"
+	],
+	"color_scheme": "Packages/User/SublimeLinter/Solarized (Light) (SL).tmTheme",
+	"font_size": 9,
+	"ignored_packages":
+	[
+		"SassBeautify"
+	],
+	"open_externally_patterns":
+	[
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.zip",
+		"*.pdf"
+	],
+	"vintage_start_in_command_mode": true
+}

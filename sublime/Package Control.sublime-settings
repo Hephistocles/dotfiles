@@ -1,0 +1,36 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"1Self",
+		"Color Highlighter",
+		"DocBlockr",
+		"Emmet",
+		"Jade",
+		"Javascript Beautify",
+		"LaTeX-cwl",
+		"LaTeXing",
+		"MarkdownLight",
+		"Non Text Files",
+		"Package Control",
+		"paredit",
+		"Sass",
+		"SassBeautify",
+		"SCSS",
+		"ShellCommand",
+		"Solarized Color Scheme",
+		"SqlBeautifier",
+		"SublimeLinter",
+		"SublimeLinter-flow",
+		"SublimeLinter-jshint",
+		"WordCount",
+		"Wrap Plus"
+	],
+	"repositories":
+	[
+		"https://github.com/csscomb/sublime-csscomb"
+	]
+}
