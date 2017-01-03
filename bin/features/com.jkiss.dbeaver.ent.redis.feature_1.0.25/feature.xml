@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.jkiss.dbeaver.ent.redis.feature"
+      label="%featureName"
+      version="1.0.25"
+      provider-name="%providerName"
+      plugin="com.jkiss.dbeaver.ent.redis">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.jkiss.dbeaver.core.feature" version="1.0.0"/>
+   </requires>
+
+   <plugin
+         id="com.jkiss.dbeaver.ent.redis"
+         download-size="82"
+         install-size="151"
+         version="1.0.14"
+         unpack="false"/>
+
+   <plugin
+         id="redis.clients.jedis"
+         download-size="526"
+         install-size="1225"
+         version="2.8.1"/>
+
+   <plugin
+         id="org.apache.commons.pool2"
+         download-size="109"
+         install-size="235"
+         version="2.4.2"/>
+
+</feature>

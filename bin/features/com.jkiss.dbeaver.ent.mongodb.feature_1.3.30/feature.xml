@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.jkiss.dbeaver.ent.mongodb.feature"
+      label="%featureName"
+      version="1.3.30"
+      provider-name="%providerName"
+      plugin="com.jkiss.dbeaver.ent.mongodb">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.jkiss.dbeaver.core.feature" version="1.0.0"/>
+   </requires>
+
+   <plugin
+         id="com.jkiss.dbeaver.ent.mongodb"
+         download-size="138"
+         install-size="288"
+         version="1.4.18"
+         unpack="false"/>
+
+   <plugin
+         id="org.mongodb.mongo-java-driver"
+         download-size="1449"
+         install-size="3169"
+         version="3.2.2"/>
+
+   <plugin
+         id="com.google.gson"
+         download-size="206"
+         install-size="415"
+         version="2.2.4.v201311231704"/>
+
+</feature>

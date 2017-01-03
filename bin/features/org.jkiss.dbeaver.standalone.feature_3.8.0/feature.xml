@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+        id="org.jkiss.dbeaver.standalone.feature"
+        label="%featureName"
+        version="3.8.0"
+        provider-name="%providerName"
+        plugin="org.jkiss.dbeaver.core.application">
+
+    <description>
+        %description
+    </description>
+
+    <copyright>
+        %copyright
+    </copyright>
+
+    <license url="%licenseURL">
+        %license
+    </license>
+
+    <url>
+        <update label="DBeaver Universal Database Manager" url="http://dbeaver.jkiss.org/"/>
+    </url>
+
+    <includes id="org.jkiss.dbeaver.rcp.feature" version="2.1.19"/>
+    <includes id="org.jkiss.dbeaver.core.feature" version="3.8.0"/>
+    <includes id="org.jkiss.dbeaver.ext.generic.feature" version="2.1.31"/>
+    <includes id="org.jkiss.dbeaver.ext.mysql.feature" version="2.1.30"/>
+    <includes id="org.jkiss.dbeaver.ext.oracle.feature" version="2.1.30"/>
+    <includes id="org.jkiss.dbeaver.ext.wmi.feature" version="2.0.47"/>
+    <includes id="org.jkiss.dbeaver.ext.db2.feature" version="2.1.30"/>
+    <includes id="org.jkiss.dbeaver.ext.exasol.feature" version="1.0.3"/>
+
+    <requires>
+        <import plugin="org.eclipse.core.runtime"/>
+        <import plugin="org.eclipse.core.resources"/>
+        <import plugin="org.eclipse.core.expressions"/>
+        <import plugin="org.eclipse.ui"/>
+        <import plugin="org.eclipse.ui.workbench"/>
+        <import plugin="org.eclipse.ui.workbench.texteditor"/>
+        <import plugin="org.eclipse.swt"/>
+        <import plugin="org.eclipse.jface"/>
+        <import plugin="org.eclipse.jface.text"/>
+        <import plugin="org.eclipse.ui.views"/>
+        <import plugin="org.eclipse.gef"/>
+        <import plugin="org.apache.commons.logging"/>
+        <import plugin="com.jcraft.jsch"/>
+        <import plugin="org.objectweb.asm"/>
+    </requires>
+
+    <!-- Include org.eclipse.ui.themes because it was added only in 4.4 -->
+    <plugin id="org.eclipse.ui.themes" download-size="45" install-size="128" version="1.1.1.v20151026-1355"/>
+    <plugin id="org.apache.commons.cli" download-size="51" install-size="107" version="1.3.1" unpack="false"/>
+
+    <plugin id="org.jkiss.dbeaver.core.application" download-size="407" install-size="753" version="3.8.0" unpack="false"/>
+
+
+</feature>

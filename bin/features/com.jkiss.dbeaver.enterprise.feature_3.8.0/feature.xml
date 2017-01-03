@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+        id="com.jkiss.dbeaver.enterprise.feature"
+        label="%featureName"
+        version="3.8.0"
+        provider-name="%providerName"
+        plugin="com.jkiss.dbeaver.ent.application">
+
+    <description>
+        %description
+    </description>
+
+    <copyright>
+        %copyright
+    </copyright>
+
+    <license url="%licenseURL">
+        %license
+    </license>
+
+    <url>
+        <update label="DBeaver Enterprise Database Manager" url="http://dbeaver.jkiss.org/"/>
+    </url>
+
+    <!-- Extra standard Eclipse features -->
+    <includes id="org.eclipse.equinox.p2.rcp.feature" version="1.2.101.v20150826-1318"/>
+
+    <!-- Version control -->
+<!--
+    <includes id="org.eclipse.team.svn" version="0.0.0"/>
+    <includes id="org.eclipse.team.svn.revision.graph" version="0.0.0"/>
+    <includes id="org.eclipse.egit" version="0.0.0"/>
+-->
+
+    <!-- Include ext EE features -->
+
+    <includes id="org.jkiss.dbeaver.standalone.feature" version="3.8.0"/>
+    <includes id="com.jkiss.dbeaver.ent.cassandra.feature" version="1.3.30"/>
+    <includes id="com.jkiss.dbeaver.ent.mongodb.feature" version="1.3.30"/>
+    <includes id="com.jkiss.dbeaver.ent.redis.feature" version="1.0.25"/>
+
+    <!-- Extra standard Eclipse plugins -->
+
+    <plugin id="org.eclipse.ui.ide.application" download-size="80" install-size="155" version="1.1.0.v20150422-0725" unpack="false"/>
+    <plugin id="org.eclipse.ui.navigator.resources" download-size="147" install-size="312" version="3.5.1.v20160128-1644" unpack="false"/>
+    <plugin id="org.eclipse.ui.views.properties.tabbed" download-size="104" install-size="214" version="3.6.100.v20150423-0822" unpack="false"/>
+    <!--plugin id="org.eclipse.ui.net" download-size="0" install-size="0" version="0.0.0" unpack="false"/-->
+
+    <!-- Default EE plugins -->
+
+    <plugin id="com.jkiss.dbeaver.ent.base" download-size="58" install-size="106" version="1.0.38" unpack="false"/>
+    <plugin id="com.jkiss.dbeaver.ent.application" download-size="201" install-size="371" version="3.8.0" unpack="false"/>
+    <plugin id="com.jkiss.dbeaver.ent.qmdb" download-size="23" install-size="39" version="1.0.34" unpack="false"/>
+
+    <!-- Extra standard 3rd party plugins -->
+
+    <plugin id="com.google.gson" download-size="206" install-size="415" version="2.2.4.v201311231704" unpack="false"/>
+    <plugin id="org.h2" download-size="1668" install-size="3319" version="1.4.190" unpack="false"/>
+
+</feature>

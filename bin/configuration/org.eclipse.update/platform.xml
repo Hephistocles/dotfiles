@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config date="1479730627126" transient="false">
+	<site updateable="true" url="platform:/base/" enabled="true" policy="USER-EXCLUDE">
+		<feature id="com.jkiss.dbeaver.ent.mongodb.feature" version="1.3.30" url="features/com.jkiss.dbeaver.ent.mongodb.feature_1.3.30/" plugin-identifier="com.jkiss.dbeaver.ent.mongodb">
+		</feature>
+		<feature id="org.jkiss.dbeaver.standalone.feature" version="3.8.0" url="features/org.jkiss.dbeaver.standalone.feature_3.8.0/" plugin-identifier="org.jkiss.dbeaver.core.application">
+		</feature>
+		<feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature" version="1.1.0.v20151130-0157" url="features/org.eclipse.ecf.filetransfer.httpclient4.ssl.feature_1.1.0.v20151130-0157/">
+		</feature>
+		<feature id="org.eclipse.equinox.p2.core.feature" version="1.3.100.v20150527-1706" url="features/org.eclipse.equinox.p2.core.feature_1.3.100.v20150527-1706/">
+		</feature>
+		<feature id="org.jkiss.dbeaver.rcp.feature" version="2.1.19" url="features/org.jkiss.dbeaver.rcp.feature_2.1.19/">
+		</feature>
+		<feature id="org.jkiss.dbeaver.ext.exasol.feature" version="1.0.3" url="features/org.jkiss.dbeaver.ext.exasol.feature_1.0.3/" plugin-identifier="org.jkiss.dbeaver.ext.exasol">
+		</feature>
+		<feature id="com.jkiss.dbeaver.ent.redis.feature" version="1.0.25" url="features/com.jkiss.dbeaver.ent.redis.feature_1.0.25/" plugin-identifier="com.jkiss.dbeaver.ent.redis">
+		</feature>
+		<feature id="org.jkiss.dbeaver.ext.wmi.feature" version="2.0.47" url="features/org.jkiss.dbeaver.ext.wmi.feature_2.0.47/" plugin-identifier="org.jkiss.dbeaver.ext.wmi">
+		</feature>
+		<feature id="org.jkiss.dbeaver.ext.generic.feature" version="2.1.31" url="features/org.jkiss.dbeaver.ext.generic.feature_2.1.31/" plugin-identifier="org.jkiss.dbeaver.ext.generic">
+		</feature>
+		<feature id="org.eclipse.ecf.core.ssl.feature" version="1.1.0.v20151130-0157" url="features/org.eclipse.ecf.core.ssl.feature_1.1.0.v20151130-0157/">
+		</feature>
+		<feature id="org.eclipse.ecf.core.feature" version="1.2.0.v20151130-0157" url="features/org.eclipse.ecf.core.feature_1.2.0.v20151130-0157/">
+		</feature>
+		<feature id="org.jkiss.dbeaver.ext.db2.feature" version="2.1.30" url="features/org.jkiss.dbeaver.ext.db2.feature_2.1.30/" plugin-identifier="org.jkiss.dbeaver.ext.db2">
+		</feature>
+		<feature id="org.eclipse.ecf.filetransfer.httpclient4.feature" version="3.12.0.v20151130-0157" url="features/org.eclipse.ecf.filetransfer.httpclient4.feature_3.12.0.v20151130-0157/">
+		</feature>
+		<feature id="com.jkiss.dbeaver.enterprise.feature" version="3.8.0" url="features/com.jkiss.dbeaver.enterprise.feature_3.8.0/" plugin-identifier="com.jkiss.dbeaver.ent.application">
+		</feature>
+		<feature id="org.eclipse.ecf.filetransfer.ssl.feature" version="1.1.0.v20151130-0157" url="features/org.eclipse.ecf.filetransfer.ssl.feature_1.1.0.v20151130-0157/">
+		</feature>
+		<feature id="org.eclipse.equinox.p2.rcp.feature" version="1.2.101.v20150826-1318" url="features/org.eclipse.equinox.p2.rcp.feature_1.2.101.v20150826-1318/">
+		</feature>
+		<feature id="org.jkiss.dbeaver.core.feature" version="3.8.0" url="features/org.jkiss.dbeaver.core.feature_3.8.0/" plugin-identifier="org.jkiss.dbeaver.core">
+		</feature>
+		<feature id="org.jkiss.dbeaver.ext.mysql.feature" version="2.1.30" url="features/org.jkiss.dbeaver.ext.mysql.feature_2.1.30/" plugin-identifier="org.jkiss.dbeaver.ext.mysql">
+		</feature>
+		<feature id="org.eclipse.ecf.filetransfer.feature" version="3.12.0.v20151130-0157" url="features/org.eclipse.ecf.filetransfer.feature_3.12.0.v20151130-0157/">
+		</feature>
+		<feature id="com.jkiss.dbeaver.ent.cassandra.feature" version="1.3.30" url="features/com.jkiss.dbeaver.ent.cassandra.feature_1.3.30/" plugin-identifier="com.jkiss.dbeaver.ent.cassandra">
+		</feature>
+		<feature id="org.jkiss.dbeaver.ext.oracle.feature" version="2.1.30" url="features/org.jkiss.dbeaver.ext.oracle.feature_2.1.30/" plugin-identifier="org.jkiss.dbeaver.ext.oracle">
+		</feature>
+	</site>
+</config>
