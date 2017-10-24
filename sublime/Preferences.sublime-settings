@@ -10,7 +10,7 @@
 		"Ubuntu"
 	],
 	"color_scheme": "Packages/User/SublimeLinter/Solarized (Light) (SL).tmTheme",
-	"font_size": 9,
+	"font_size": 13,
 	"ignored_packages":
 	[
 		"SassBeautify"

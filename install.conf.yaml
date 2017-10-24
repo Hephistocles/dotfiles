@@ -4,6 +4,11 @@
     ~/.vim: vim/
     ~/.vimPlugins: vimPlugins
     ~/.vimrc: vimrc
+    ~/.zshrc: zshrc
+    ~/.npmrc: npmrc
+    ~/.yarnrc: yarnrc
+    ~/.vscode: vscode
+    ~/.oh-my-zsh: oh-my-zsh
     ~/.latexmkrc: latexmkrc
     ~/.gvimrc: gvimrc
     ~/.bashrc: bashrc

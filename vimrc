@@ -69,6 +69,7 @@ cmap <C-a> <Home>
 cmap <C-e> <End>
 
 "" Plugin settings
+let $PYTHONPATH='/usr/lib/python3.5/site-packages'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:ctrlp_user_command=['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']

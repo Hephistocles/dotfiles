@@ -1,10 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/christoph/Main/dev/clojure-noob'
-let g:netrw_dirhist_2='/home/christoph/Main/dev/clojure-noob/src'
-let g:netrw_dirhist_3='/home/christoph/Main/dev/clojure-noob/src/clojure_noob'
-let g:netrw_dirhist_4='/home/christoph/Main/dev/clojure/fwpd'
-let g:netrw_dirhist_5='/home/christoph/Main/dev/clojure/peg'
-let g:netrw_dirhist_6='/home/christoph/Main/dev/clojure/peg/src'
-let g:netrw_dirhist_7='/home/christoph/Main/dev/clojure/peg/src/peg'
-let g:netrw_dirhist_8='/etc/sysctl.d'
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/home/christoph/Code/lendr/service-distribution/helpers'
+let g:netrw_dirhist_2='/home/cjol/Code/lendr/dagger'
+let g:netrw_dirhist_3='/home/cjol/Code/lendr/sourcing-service/.git'
+let g:netrw_dirhist_4='/home/cjol/.oh-my-zsh'

@@ -93,6 +93,11 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# add some git aliasses
+alias stat='git status';
+alias ggraph='git log --color --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit --'
+alias assumeunchanged='git update-index --assume-unchanged'
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -117,10 +122,13 @@ if ! shopt -oq posix; then
   fi
 fi
 export SCALA_HOME=/usr/local/src/scala/scala-2.10.4
+export PATH=~/bin:$PATH
 export PATH=$SCALA_HOME/bin:$PATH
 export PATH=/opt/intellij/bin:$PATH
 export PATH=/opt/storm/bin:$PATH
 export PATH=/opt/maven/bin:$PATH
+export DB_ADDRESS=127.0.0.1:27017
+export RMQ_ADDRESS=127.0.0.1
 
 function _update_ps1() {
     PS1="\n$(~/.dotfiles/powerline-shell.py $? 2> /dev/null)"
@@ -129,3 +137,16 @@ function _update_ps1() {
 if [ "$TERM" != "linux" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
+
+PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+PATH=$PATH:/opt/gradle/gradle-3.4.1/bin
+
+export NVM_DIR="/home/cjol/.nvm"
+export GOROOT=/opt/go
+export GOPATH=/home/cjol/Code/lendr/go
+export PATH=$PATH:$GOROOT/bin
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# added by Anaconda3 4.4.0 installer
+export PATH="/home/cjol/anaconda3/bin:$PATH"
+source /home/cjol/anaconda3/bin/activate.sh
