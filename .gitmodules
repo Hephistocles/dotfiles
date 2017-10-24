@@ -10,3 +10,9 @@
 [submodule "bin/couchpotato"]
 	path = bin/couchpotato
 	url = git://github.com/RuudBurger/CouchPotatoServer.git
+[submodule "oh-my-zsh"]
+	path = oh-my-zsh
+	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule "pure-zsh-prompt"]
+	path = pure-zsh-prompt
+	url = https://github.com/sindresorhus/pure.git

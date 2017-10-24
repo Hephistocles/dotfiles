@@ -84,11 +84,25 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-fpath+=($fpath '/usr/local/lib/node_modules/pure-prompt/functions')
 
-autoload -U promptinit; promptinit
+NPM_PACKAGES="${HOME}/.npm-packages"
+
+PATH="$NPM_PACKAGES/bin:$PATH"
+
+# Unset manpath so we can inherit from /etc/manpath via the `manpath` command
+unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+# fpath=('~/.dotfiles/.zfunctions' $fpath)
+fpath=( ~/.dotfiles/.zfunctions "${fpath[@]}" )
+
+autoload -Uz hello;
+autoload -U promptinit;
+promptinit
 
 # optionally define some options
 PURE_CMD_MAX_EXEC_TIME=10
 
 prompt pure
+
+
