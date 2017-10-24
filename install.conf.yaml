@@ -20,3 +20,4 @@
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - [vim -u ~/.vimPlugins +PluginInstall +qall, Installing VIM plugins]
+  - [npm install -g n, Installing Global Node Packages]
