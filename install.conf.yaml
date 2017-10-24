@@ -7,7 +7,6 @@
     ~/.zshrc: zshrc
     ~/.npmrc: npmrc
     ~/.yarnrc: yarnrc
-    ~/.vscode: vscode
     ~/.oh-my-zsh: oh-my-zsh
     ~/.latexmkrc: latexmkrc
     ~/.gvimrc: gvimrc
