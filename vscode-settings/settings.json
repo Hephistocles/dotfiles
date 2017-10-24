@@ -1,0 +1,14 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "vim.disableAnnoyingNeovimMessage": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        }
+    ],
+"vim.useSystemClipboard": true,
+"cSpell.language": ",en-GB",
+"git.confirmSync": false,
+"workbench.colorTheme": "Solarized Dark"
+}
