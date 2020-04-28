@@ -145,8 +145,17 @@ export NVM_DIR="/home/cjol/.nvm"
 export GOROOT=/opt/go
 export GOPATH=/home/cjol/Code/lendr/go
 export PATH=$PATH:$GOROOT/bin
+export GEM_HOME=~/.gem
+export PATH=$PATH:$GEM_HOME/bin
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# added by Anaconda3 4.4.0 installer
-export PATH="/home/cjol/anaconda3/bin:$PATH"
-source /home/cjol/anaconda3/bin/activate.sh
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[ -f /home/cjol2/.config/yarn/global/node_modules/tabtab/.completions/serverless.bash ] && . /home/cjol2/.config/yarn/global/node_modules/tabtab/.completions/serverless.bash
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[ -f /home/cjol2/.config/yarn/global/node_modules/tabtab/.completions/sls.bash ] && . /home/cjol2/.config/yarn/global/node_modules/tabtab/.completions/sls.bash
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[ -f /home/cjol2/.config/yarn/global/node_modules/tabtab/.completions/slss.bash ] && . /home/cjol2/.config/yarn/global/node_modules/tabtab/.completions/slss.bash

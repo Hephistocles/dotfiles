@@ -1,14 +1,159 @@
 {
-    "workbench.iconTheme": "material-icon-theme",
-    "vim.disableAnnoyingNeovimMessage": true,
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "k"],
-            "after": ["<Esc>"]
-        }
-    ],
-"vim.useSystemClipboard": true,
-"cSpell.language": ",en-GB",
-"git.confirmSync": false,
-"workbench.colorTheme": "Solarized Dark"
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "k"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.useSystemClipboard": true,
+  "git.confirmSync": false,
+  "workbench.colorTheme": "Solarized Dark",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/node_modules": true,
+    "**/expo": true,
+    "**/.DS_Store": true
+  },
+  "editor.minimap.enabled": false,
+  "window.zoomLevel": -1,
+  "vim.disableExtension": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "git.autofetch": true,
+  "yaml.customTags": [
+    "!And",
+    "!If",
+    "!Not",
+    "!Equals",
+    "!Or",
+    "!FindInMap",
+    "!Base64",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!Select",
+    "!Split",
+    "!Join"
+  ],
+  "editor.selectionHighlight": false,
+  "gitlens.keymap": "alternate",
+  "gitlens.advanced.messages": {
+    "suppressShowKeyBindingsNotice": true
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "blueprint.templatesPath": [
+    "../blueprint-templates"
+  ],
+  "editor.fontLigatures": true,
+  "editor.fontFamily": " 'Fira Code', 'Hasklig', 'monospace', monospace, 'Droid Sans Fallback'",
+  "editor.fontSize": 15,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "sshfs.configs": [
+    {
+      "name": "gpdev",
+      "root": "~/getpoints",
+      "host": "gpdev.tyro.ug",
+      "port": 22,
+      "username": "cjol",
+      "password": "LockDown1"
+    }
+  ],
+  "editor.suggest.localityBonus": true,
+  "editor.wordBasedSuggestions": false,
+  "javascript.suggest.completeFunctionCalls": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "window.titleBarStyle": "custom",
+  "workbench.statusBar.feedback.visible": false,
+  "workbench.sideBar.location": "right",
+  "codestream.email": "christopher@tyrohq.com",
+  "codestream.viewCodemarksInline": true,
+  "liveshare.featureSet": "insiders",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "terminal.integrated.shell.linux": "/usr/bin/zsh",
+  "window.menuBarVisibility": "default",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "terminal.integrated.rendererType": "dom",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "todo-tree.highlights.enabled": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.jsxBracketSameLine": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "[scss]": {
+    "editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+  },
+  "scssFormatter.singleQuote": true,
+  "emmet.showSuggestionsAsSnippets": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "input-assist.languages": [
+    "purs",
+    "purescript"
+  ],
+  "generic-input-methods.input-methods": [
+    {
+      "name": "Unicode Purescript",
+      "commandName": "text.purescript",
+      "languages": [
+        "purs",
+        "purescript",
+      ],
+      "triggers": [
+        "\\"
+      ],
+      "dictionary": [
+        "defaults/math.json"
+      ]
+    },
+    {
+      "name": "Unicode Math",
+      "commandName": "text.math",
+      "languages": [
+        "markdown"
+      ],
+      "triggers": [
+        "\\"
+      ],
+      "dictionary": [
+        "defaults/math.json"
+      ]
+    }
+  ],
+  "workbench.iconTheme": "vscode-icons",
+  "vsicons.presets.tsOfficial": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "html.mirrorCursorOnMatchingTag": false,
+  "todo-tree.tree.showScanModeButton": false,
+  "vsonline.planFilter": "/subscriptions/25a7308d-c3c4-4d44-a0f8-f867404b7098/resourceGroups/vso-rg-5ec3daf/providers/Microsoft.VSOnline/plans/vso-plan-westeurope",
+  "terminal.integrated.allowChords": false,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "vsonline.authentication.accountProvider": "Microsoft"
 }

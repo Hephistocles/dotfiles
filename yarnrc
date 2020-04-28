@@ -2,4 +2,6 @@
 # yarn lockfile v1
 
 
-lastUpdateCheck 1507029055616
+lastUpdateCheck 1587733658290
+yarn-offline-mirror "/home/cjol/.npm-cache"
+yarn-offline-mirror-pruning true

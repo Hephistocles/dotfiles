@@ -1,2 +1,11 @@
 scripts-prepend-node-path=true
-prefix=${HOME}/.npm-packages
+//registry.npmjs.org/:_authToken=11431225-d369-442d-a632-df309ca8de15
+init.author.name=Christopher Little
+init.author.email=christopher@littlehq.uk
+init.author.url=littlesavage.net
+registry=https://registry.npmjs.org/
+@ctek:registry=https://century.jfrog.io/century/api/npm/npm-local/
+//century.jfrog.io/century/api/npm/npm-local/:_password=${ARTIFACTORY_PASSWORD}
+//century.jfrog.io/century/api/npm/npm-local/:username=${ARTIFACTORY_USERNAME}
+//century.jfrog.io/century/api/npm/npm-local/:email=${ARTIFACTORY_EMAIL}
+//century.jfrog.io/century/api/npm/npm-local/:always-auth=true

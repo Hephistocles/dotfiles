@@ -82,12 +82,20 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias scrabble="scrabble-helper --language en --letters"
+alias tyromerge="git checkout $1 && git fetch && git rebase origin/master && git push --force-with-lease && git checkout master && echo \"merging to $1\" && git merge --no-ff $1 && git push origin master"
+alias mytest="_TEST=50 && echo \"My number is $_TEST ok\""
+alias k='kubectl'
+alias kx='kubectx'
+alias kn='kubens'
 
+export GEM_HOME=~/.gem
+export PATH=$PATH:$GEM_HOME/bin
 
 NPM_PACKAGES="${HOME}/.npm-packages"
 
 PATH="$NPM_PACKAGES/bin:$PATH"
+PATH="${HOME}/.local/bin:$PATH"
 
 # Unset manpath so we can inherit from /etc/manpath via the `manpath` command
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
@@ -105,4 +113,28 @@ PURE_CMD_MAX_EXEC_TIME=10
 
 prompt pure
 
+
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /home/cjol/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/cjol/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /home/cjol/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /home/cjol/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0
+export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export ARTIFACTORY_USERNAME="christopher.little"
+export ARTIFACTORY_PASSWORD="QVA1Qm44dERqdXVQcWhrS1hKdTcyQ1pGZXZW"
+export ARTIFACTORY_EMAIL="christopher.little@century.tech"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

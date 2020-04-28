@@ -14,6 +14,9 @@
     ~/.gitconfig: gitconfig
     ~/.fonts: fonts
     ~/bin: bin
+    ~/.config/libinput-gestures.conf:
+        create: true
+        path: libinput-gestures.conf
     ~/.config/sublime-text-3/Packages/User : 
         create: true
         path: sublime
@@ -26,3 +29,4 @@
   - [vim -u ~/.vimPlugins +PluginInstall +qall, Installing VIM plugins]
   - [npm install -g n, Installing Global Node Packages]
   - [while read l; do code --install-extension $l; done < vscode-extensions, Installing VS Code Extensions]
+  - [gem install asciidoctor asciidoc asciidoctor-pdf --pre]

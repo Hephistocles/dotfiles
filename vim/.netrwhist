@@ -1,6 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/home/christoph/Code/lendr/service-distribution/helpers'
-let g:netrw_dirhist_2='/home/cjol/Code/lendr/dagger'
-let g:netrw_dirhist_3='/home/cjol/Code/lendr/sourcing-service/.git'
-let g:netrw_dirhist_4='/home/cjol/.oh-my-zsh'
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/cjol/.dotfiles'
+let g:netrw_dirhist_2='/home/cjol/.dotfiles/.zfunctions'
+let g:netrw_dirhist_3='/home/cjol2/Code/experiments/fp-ts-playground'
+let g:netrw_dirhist_4='/home/cjol2/Code/experiments/fp-ts-playground/src'
+let g:netrw_dirhist_5='/home/cjol2/Code/experiments/fp-ts-playground/src/interfaces'
+let g:netrw_dirhist_6='/home/cjol2/Code/CENTURY/ops-app-charts'

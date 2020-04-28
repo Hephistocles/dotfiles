@@ -1,8 +1,0 @@
-#!/bin/bash
-if [ -t 0 ]; then
-    xclip -selection clipboard -o
-else
-	cat |
-	xclip -selection clipboard -i
-fi
-exit

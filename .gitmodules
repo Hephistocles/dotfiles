@@ -16,3 +16,6 @@
 [submodule "pure-zsh-prompt"]
 	path = pure-zsh-prompt
 	url = https://github.com/sindresorhus/pure.git
+[submodule "libinput-gestures"]
+	path = libinput-gestures
+	url = http://github.com/bulletmark/libinput-gestures
